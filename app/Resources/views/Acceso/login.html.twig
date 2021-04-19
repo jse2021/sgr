@@ -1,0 +1,46 @@
+{% extends 'bases/base_login.html.twig' %}
+
+{% block titulo %}
+  Acceder
+{% endblock %}
+{#CONTENIDO#}
+{% block contenido %}
+
+  <h1 class="display-4 text-center">Sistema de Gestion de Reservas</h1>
+
+  <div class="modal-dialog text-center">
+    <div class="col-sm-8 main-section">
+      <div class="modal-content">
+        <div class="col-12 user-img">
+          <img src=" img/log.png">
+        </div>
+
+        {% if error %}
+          <h3>{{ error.messageKey|trans(error.messageData, 'security') }}</h3>
+        {% endif %}
+
+        <form action="{{ path('login') }}" method="post">
+          <div class="control-group form-group">
+            <div class="controls">
+              <label for="username">Username:</label>
+              <input class="form-control" type="text" id="username" name="_username" value="{{last_username}}"/>
+            </div>
+          </div>
+
+          <div class="control-group form-group">
+            <div class="controls">
+              <label for="password">Password:</label>
+              <input class="form-control" type="password" id="password" name="_password"/>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" type="submit">Acceder</button>
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+{% endblock %}

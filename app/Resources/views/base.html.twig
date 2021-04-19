@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <!--CCS DE CADA HTML-->
+    <link href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"/>
+    <link href="{{asset('vendor/bootstrap/css/principal.css')}}" rel="stylesheet"/>
+    <link href="{{asset('vendor/bootstrap/css/cliente.css')}}" rel="stylesheet"/>
+    <link href="{{asset('vendor/bootstrap/css/reserva.css')}}" rel="stylesheet"/>
+    <link href="{{asset('vendor/bootstrap/css/consultaReserva.css')}}" rel="stylesheet"/>
+    <link href="{{asset('vendor/bootstrap/css/usuario.css')}}" rel="stylesheet"/>
+
+    <!--FIN CCS DE CADA HTML-->
+
+    <title>
+      {% block titulo %}Welcome!{% endblock %}
+      {% block stylesheets %}{% endblock %}
+
+    </title>
+  </head>
+
+  <body>
+
+    <div class="container-fluid navbar-light bg-light">
+
+      <nav class="navbar navbar-expand-lg  container">
+        <a class="navbar-brand" >
+          SGR</a>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+        {# <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button> #}
+      {% if not app.user %}
+        
+            <li class="nav-item">
+              <a class="nav-link" href="#">Nosotros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contacto</a>
+            </li>
+                <li class="nav-item">
+                   <a class="nav-link" href="{{path('login')}}">Acceder</a>
+                </li> 
+      {% endif %} 
+      
+          {# cuando haya un usuario logueado #}
+            {% if app.user %}
+
+              <li class="nav-item">
+                <a class="nav-link" href="{{path('principal')}}">Principal</a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Clientes
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{{path('nuevoCliente')}}">Nuevo Cliente</a>
+                  <a class="dropdown-item" href="{{path('consultarCliente')}}">Consultar Cliente</a>
+
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Reservas
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{path('nuevaReserva')}}">Crear Reserva</a>
+                    <a class="dropdown-item" href="{{path('consultarReservaPorCliente')}}">Consultar Reservas por Cliente</a>
+                    <a class="dropdown-item" href="{{path('consultarReservaPorCancha')}}">Disponibilidad por Cancha</a>
+
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Usuarios
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{{path('nuevoUsuario')}}">Nuevo Usuario</a>
+                      <a class="dropdown-item" href="{{path('consultarUsuario')}}">Consultar Usuario</a>
+
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{path('logout')}}">Salir</a>
+                    </li>               
+                  
+                  {% endif %}
+                  <!--fin del if-->
+
+
+                </ul>
+              </div>
+            </nav>
+          </div>
+
+          {% block contenido %}
+            <!--NO LLEVA NADA, ES EL CONTENIDO DE CADA HTML INDIVIDUAL-->
+          {% endblock %}
+
+          {% block javascripts %}{% endblock %}
+
+          <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+          <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+          <footer class="py-5 bg-light ">
+            <div class="container">
+              <p class="m-2 text-center text-black">Copyright &copy; SGR</p>
+            </div>
+            <!-- /.container -->
+          </footer>
+
+        </body>
+
+      </html>

@@ -1,0 +1,27 @@
+@media (max-width:0px) {
+    .display-5 {
+        font-size: 1.1rem;
+    }
+    .day h5 {
+        background-color: #f8f9fa;
+        padding: 2px 2px 2px;
+        margin: -2px -2px 2px -2px;
+    }
+    .date {
+        padding-left: 2px;
+    }
+}
+
+@media (min-width: 0px) {
+    .day {
+        height: 2.2vw;
+    }
+}
+
+#primero {
+    background-color: crimson;
+}
+
+#segundo {
+    background-color: forestgreen;
+}

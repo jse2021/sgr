@@ -46,6 +46,11 @@
       
           {# cuando haya un usuario logueado #}
             {% if app.user %}
+            {% for flash_message in app.session.flashbag.get('error') %}
+              <div class="flash-error">
+              {{flash_message}}
+              </div>
+            {% endfor %}
 
               <li class="nav-item">
                 <a class="nav-link" href="{{path('principal')}}">Principal</a>

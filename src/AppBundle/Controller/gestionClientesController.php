@@ -27,24 +27,40 @@ class gestionClientesController extends Controller
 
   public function nuevoClienteAction(Request $request)
   {
-    $tapa= new cliente();
+    $nCliente= new cliente();
+    $repository = $this->getDoctrine()->getRepository(Cliente::class);
     /*CONSTRUYENDO FORMULARIO*/
-    $form = $this->createForm(nuevoClienteType::class, $tapa);
+    $form = $this->createForm(nuevoClienteType::class,$nCliente);
     /*Recoger la informacion del submit*/
     $form ->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-          // rellenar el entity tapa
-          $cliente = $form->getData();
-         //almacenar nueva tapa
-          $em = $this->getDoctrine()->getManager();
-          // objeto a almacenar "tapa"
-          $em ->persist($cliente);
-          //finalizar comunicacion con bd
-          $em->flush();
-          // al crear, redirije a la ruta tapa con el id de la nueva tapa
-          return $this->redirectToRoute('nuevoCliente');
-   }
+          
+          $campoDni = $form->getData([0]);
+          $clienteBd = $this->getDoctrine()->getRepository('AppBundle:Cliente')
+                ->findOneBy(['dni' => $campoDni]);
+
+      if($clienteBd !== null) {
+        $this->addFlash('warning',
+        'Cliente existente');  
+      } else {
+        // rellenar el entity tapa
+        $cliente = $form->getData();
+                
+        //almacenar nueva tapa
+        $em = $this->getDoctrine()->getManager();
+        // objeto a almacenar "tapa"
+        $em ->persist($cliente);
+        //finalizar comunicacion con bd
+        $em->flush();
+        $this->addFlash('success',
+            'Cliente guardado con éxito');  
+        // al crear, redirije a la ruta tapa con el id de la nueva tapa
+        return $this->redirectToRoute('nuevoCliente');
+      }
+
+              
+    }
 
     /*de esta forma habilito para usar las variables en index*/
       return $this->render('gestionClientes/nuevoCliente.html.twig',array('form' => $form->createView()));
@@ -62,22 +78,27 @@ class gestionClientesController extends Controller
     
     if ($form->isSubmitted() && $form->isValid()) { 
       
-      // obtengo el dni
+      // obtengo el dni del campo
         $campoDni = $form->getData([0]);            
-        // ya obtuve los datos del campo, faltaria comparar si existe en la base de datos, si es asi, traer todos los datos del cliente.
-         $cliente = $this->getDoctrine()->getRepository('AppBundle:Cliente')
-                ->findOneBy(['dni' => $campoDni]);
 
-        $dniBaseDatos= $cliente->getDni();
-        return $this->render('gestionclientes/Cliente.html.twig',array("cliente" => $cliente));
-        
-        }
-         
+      // ya obtuve los datos del campo, faltaria comparar si existe en la base de datos, si es asi, traer todos los datos del cliente.
+        $cliente = $this->getDoctrine()->getRepository('AppBundle:Cliente')
+                ->findOneBy(['dni' => $campoDni]);
+      // Si cliente no trae nada, muestra nuevamente la pantalla consulta, sino muestra datos
+          if ($cliente === null){
+                $this->addFlash('warning',
+                                'No existe el cliente');
+                                
+          } else {
+                // Obtengo el dni de la BD
+                $dniBaseDatos= $cliente->getDni();
+                return $this->render('gestionclientes/Cliente.html.twig',array("cliente" => $cliente));
+          }
+            
+            }
+            
         return $this->render('gestionclientes/consultarCliente.html.twig',array('form'=>$form->createView()));  
         
-      
-      
-
   }
 
 }

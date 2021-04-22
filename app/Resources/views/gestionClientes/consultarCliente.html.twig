@@ -3,22 +3,36 @@
 {% block titulo %}
     consultar Cliente
 {% endblock %}
+
 {% block contenido %}
 
     <div class="container">
+    
     <h1 class="text-center display-4">
       CONSULTAR CLIENTE
     </h1>
 
     <div class="row">
 
+    
       <div class="col-md-8">
+      {% for message in app.flashes('warning')%}
+        <div class="alert alert-warning">
+            {{message}}
+        </div>
+        
+      {% endfor %}
+
         {{ form_start(form) }}
         {{ form_widget(form) }}
         {{ form_end(form) }}
       </div>
-
+    
+    {# {{include ('gestionClientes/Cliente.html.twig')}} #}
+    
     </div>
+    
+
   </div>
 
 {% endblock %}

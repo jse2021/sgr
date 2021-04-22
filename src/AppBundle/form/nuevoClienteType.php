@@ -11,10 +11,11 @@ class nuevoClienteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-      /*trae los nombres de los campos de la tabla tapa*/
+      /*trae los nombres de los campos de la tabla cliente*/
         $builder
-        ->add('dni', TextType::class)
-        ->add('nombre', TextType::class)
+        ->add('dni', NumberType::class,['invalid_message'=>'Se ingresaron datos invalidos'])
+        
+        ->add('nombre', TextType::class )
         ->add('apellido', TextType::class)
         ->add('email', EmailType::class)
         ->add('celular', NumberType::class)

@@ -10,6 +10,8 @@ use AppBundle\form\consultarClienteType;
 use Doctrine\ORM\ORMException;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Notifier\Message\SmsMessage;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  *paco.gomez.arnal@gmail.com correo de paco
@@ -40,22 +42,25 @@ class gestionClientesController extends Controller
           $clienteBd = $this->getDoctrine()->getRepository('AppBundle:Cliente')
                 ->findOneBy(['dni' => $campoDni]);
 
+
       if($clienteBd !== null) {
         $this->addFlash('warning',
         'Cliente existente');  
       } else {
-        // rellenar el entity tapa
+        // rellenar el entity cliente
         $cliente = $form->getData();
                 
-        //almacenar nueva tapa
+        //almacenar nueva cliente
         $em = $this->getDoctrine()->getManager();
-        // objeto a almacenar "tapa"
+        // objeto a almacenar "cliente"
         $em ->persist($cliente);
         //finalizar comunicacion con bd
         $em->flush();
         $this->addFlash('success',
             'Cliente guardado con éxito');  
-        // al crear, redirije a la ruta tapa con el id de la nueva tapa
+            
+        
+        
         return $this->redirectToRoute('nuevoCliente');
       }
 

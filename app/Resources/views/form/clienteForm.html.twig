@@ -27,3 +27,4 @@
     {%- endif -%}
     <button type="{{ type|default('button') }}" class="btn btn-secondary" {{ block('button_attributes') }}>{{ translation_domain is same as(false) or label is same as(false) ? label : label|trans({}, translation_domain) }}</button>
 {%- endblock button_widget -%}
+

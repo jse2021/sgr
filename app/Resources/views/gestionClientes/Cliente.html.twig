@@ -23,37 +23,29 @@
               <th scope="col">Celular</th>
               <th scope="col">Borrar</th>
             </tr>
-          </thead>
-          
-          {# {# <tbody> #}
-
-
-            {# {% for clientes in cliente %} #}
-            
-                {# {% if clientes.dni is defined %} #}
+          </thead>            
+        <tbody>
+      
                         <tr>
-                        {# es el id que va a recibir el controlador de reservas, para que luego traiga los
-                        datos al dar editar una reserva #}
-                            {# <th scope="row"><a href="{{path('nuevaReserva',{'reserva':reserva.id}) }}"><i class="fas fa-pen"></i></a></th> #}
-                
-                            <th scope="row"><a href="{{path('nuevoCliente',{'dni':cliente.dni})}}"></a>xxxxxxxxxxxxxx</th> 
-                             <td>{{cliente.dni}}</td> 
-                            <td>{{cliente.nombre}}</td> 
-                            <td>{{cliente.apellido}}</td> 
-                            <td>{{cliente.email}}</td> 
-                            <td>{{cliente.celular}}</td> 
-                            {# esta opcion, realiza el borrado de una reserva, pasa por parametro a la funcion borrarReserva el id de la reserva
-                            y la fecha para el popup #}
-                            {# <th scope="row"><a href="#" onClick="return controlBorrado('{{path('borrarReserva',{'id':reserva.id})}}','{{reserva.fecha|date('Y/m/d h:i')}}');"><i class="far fa-trash-alt"></i></a></th> #}
+                            {# es el dni que va a recibir el controlador de clientes, para que luego traiga los
+                                datos al dar editar un cliente #}
+                            <th scope="row"><a href="{{path('nuevoCliente',{'dni':cliente.dni})}}"><i class ="fas fa-pencil-alt"></i></a></th> 
+                                <td>{{cliente.dni}}</td> 
+                                <td>{{cliente.nombre}}</td> 
+                                <td>{{cliente.apellido}}</td> 
+                                <td>{{cliente.email}}</td> 
+                                <td>{{cliente.celular}}</td> 
+                            {# esta opcion, realiza el borrado de un cliente, pasa por parametro a la funcion borrarCliente el dni del cliente
+                                y la fecha para el popup #}
+                            <th scope="row"><a href="#" onClick="return controlBorrado('{{path('borrarCliente',{'dni':cliente.dni})}}');"><i class="fas fa-trash-alt"></i></a></th>
+                            
                         </tr>
-                        {# {% endif %} #}
-            {# {% endfor %} #}
-          </tbody>
+      </tbody>        
         </table>
-
-        {# <div class="col-md-2"></div>  #}
+        <div class="col-md-2"></div> 
 
       </div>
     </div>
   </div>
+
 {% endblock %}

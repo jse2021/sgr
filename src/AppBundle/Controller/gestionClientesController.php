@@ -9,6 +9,7 @@ use AppBundle\form\nuevoClienteType;
 use AppBundle\form\consultarClienteType;
 use Doctrine\ORM\ORMException;
 use Exception;
+use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Notifier\Message\SmsMessage;
 use Symfony\Component\Validator\Constraints\Length;
@@ -22,90 +23,123 @@ use Symfony\Component\Validator\Constraints\Length;
  */
 class gestionClientesController extends Controller
 {
+   /**
+   * @Route("/consultarCliente", name="consultarCliente" )
+   */
+  public function consultarClienteAction(Request $request)
+  {
+$repository = $this->getDoctrine()->getRepository(Cliente::class);
+$form = $this->createForm(consultarClienteType::class);
+$form ->handleRequest($request);
+    
+     if ($form->isSubmitted() && $form->isValid()) { 
+         // obtengo el dni del campo
+         $campoDni = $form->getData(['dni']);            
+         // Si cliente no trae nada, muestra nuevamente la pantalla consulta, sino muestra datos
+         $cliente = $this->getDoctrine()->getRepository('AppBundle:Cliente')
+         ->findOneBy(['dni' => $campoDni]);
+      
+           if ($cliente === null){
+             $this->addFlash('warning',
+             'No existe el cliente');                     
+             } else { 
+             return $this->render('gestionclientes/Cliente.html.twig',array("cliente" => $cliente));
+         }
+           } 
+             return $this->render('gestionclientes/consultarCliente.html.twig',array('form'=>$form->createView()));  
+  }
+
+
   /**
-   * @Route("/nuevoCliente", name="nuevoCliente")
+   * @Route("/nuevoCliente/{dni}", name="nuevoCliente")
    *
    */
 
-  public function nuevoClienteAction(Request $request)
+  public function nuevoClienteAction(Request $request, $dni = null)
   {
-    $nCliente= new cliente();
-    $repository = $this->getDoctrine()->getRepository(Cliente::class);
-    /*CONSTRUYENDO FORMULARIO*/
-    $form = $this->createForm(nuevoClienteType::class,$nCliente);
-    /*Recoger la informacion del submit*/
-    $form ->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-          
-          $campoDni = $form->getData([0]);
-          $clienteBd = $this->getDoctrine()->getRepository('AppBundle:Cliente')
-                ->findOneBy(['dni' => $campoDni]);
-
-
-      if($clienteBd !== null) {
-        $this->addFlash('warning',
-        'Cliente existente');  
-      } else {
-        // rellenar el entity cliente
-        $cliente = $form->getData();
-                
-        //almacenar nueva cliente
-        $em = $this->getDoctrine()->getManager();
-        // objeto a almacenar "cliente"
-        $em ->persist($cliente);
-        //finalizar comunicacion con bd
-        $em->flush();
-        $this->addFlash('success',
-            'Cliente guardado con éxito');  
-            
+    
+  $clienteBd = $this->getDoctrine()->getRepository('AppBundle:Cliente')
+  ->findOneBy(['dni' => $dni]);
         
-        
-        return $this->redirectToRoute('nuevoCliente');
-      }
+      if($dni){
+            $repository = $this->getDoctrine()->getRepository(Cliente::class);        
+            $ncliente = $repository->find($dni);    
+        }else {
+           $ncliente = new cliente();
+             }
 
-              
-    }
+            /*CONSTRUYENDO FORMULARIO*/
+              $form = $this->createForm(nuevoClienteType::class,$ncliente);
+            /*Recoger la informacion del submit*/
+              $form ->handleRequest($request);
+    
+                if ($form->isSubmitted() && $form->isValid()) {
+                  $campoDni = $form->getData(['dni']);
+                  $clienteBd = $this->getDoctrine()->getRepository('AppBundle:Cliente')
+                  ->findOneBy(['dni' => $campoDni]);
+                  
+                 if($clienteBd == $campoDni){ 
+                  dump("entro if update");
+                  // rellenar el entity cliente
+                  $cliente = $form->getData();
+                  //almacenar nueva cliente
+                  $em = $this->getDoctrine()->getManager();
+                  // objeto a almacenar "cliente"
+                  $em ->persist($cliente);
+                  // //finalizar comunicacion con bd
+                  $em->flush();
+                  $this->addFlash('success',
+                  'Cliente actualizado con éxito');          
+                  return $this->redirectToRoute('nuevoCliente');
+              }
 
+                  if ($clienteBd == null) {
+                    // rellenar el entity cliente
+                    $cliente = $form->getData();
+                    //almacenar nueva cliente
+                    $em = $this->getDoctrine()->getManager();
+                    // objeto a almacenar "cliente"
+                    $em ->persist($cliente);
+                    //finalizar comunicacion con bd
+                    $em->flush();
+                    $this->addFlash('success',
+                    'Cliente guardado con éxito');          
+                    return $this->redirectToRoute('nuevoCliente');
+                } 
+
+                  if($clienteBd) {
+                    $this->addFlash('warning',
+                    'Cliente existente');  
+                   }
+                   
+                   
+                  
+
+    }  
     /*de esta forma habilito para usar las variables en index*/
       return $this->render('gestionClientes/nuevoCliente.html.twig',array('form' => $form->createView()));
   }
 
   /**
-   * @Route("/consultarCliente", name="consultarCliente" )
-   */
-   public function consultarClienteAction(Request $request)
-  {
+ * @Route("/borrar/{dni}", name="borrarCliente")
+ *
+ */
+public function borrarClienteAction(Request $request, $dni = null){
+
+if($dni)
+{
+    // Busqueda de la cliente
     $repository = $this->getDoctrine()->getRepository(Cliente::class);
-    $form = $this->createForm(consultarClienteType::class);
-    
-    $form ->handleRequest($request);
-    
-    if ($form->isSubmitted() && $form->isValid()) { 
-      
-      // obtengo el dni del campo
-        $campoDni = $form->getData([0]);            
+    $cliente = $repository->find($dni);
+    // borrado
+    $em = $this->getDoctrine()->getManager();
+    dump($cliente);
+    $em ->remove($cliente);
+    $em->flush();
 
-      // ya obtuve los datos del campo, faltaria comparar si existe en la base de datos, si es asi, traer todos los datos del cliente.
-        $cliente = $this->getDoctrine()->getRepository('AppBundle:Cliente')
-                ->findOneBy(['dni' => $campoDni]);
-      // Si cliente no trae nada, muestra nuevamente la pantalla consulta, sino muestra datos
-          if ($cliente === null){
-                $this->addFlash('warning',
-                                'No existe el cliente');
-                                
-          } else {
-                // Obtengo el dni de la BD
-                $dniBaseDatos= $cliente->getDni();
-                return $this->render('gestionclientes/Cliente.html.twig',array("cliente" => $cliente));
-          }
-            
-            }
-            
-        return $this->render('gestionclientes/consultarCliente.html.twig',array('form'=>$form->createView()));  
-        
-  }
-
+}
+    return $this->redirectToRoute('consultarCliente');
+}
 }
 
 ?>

@@ -10,16 +10,18 @@
 
   <div class="modal-dialog text-center">
     <div class="col-sm-8 main-section">
+      
       <div class="modal-content">
         <div class="col-12 user-img">
           <img src=" img/log.png">
         </div>
 
-        {% if error %}
-          <h3>{{ error.messageKey|trans(error.messageData, 'security') }}</h3>
-        {% endif %}
-
         <form action="{{ path('login') }}" method="post">
+          {% for message in app.flashes('warning')%}
+        <div class="alert alert-warning">
+            {{message}}
+        </div>  
+      {% endfor %}
           <div class="control-group form-group">
             <div class="controls">
               <label for="username">Username:</label>

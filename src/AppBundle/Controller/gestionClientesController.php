@@ -79,7 +79,6 @@ $form ->handleRequest($request);
                   ->findOneBy(['dni' => $campoDni]);
                   
                  if($clienteBd == $campoDni){ 
-                  dump("entro if update");
                   // rellenar el entity cliente
                   $cliente = $form->getData();
                   //almacenar nueva cliente
@@ -133,7 +132,6 @@ if($dni)
     $cliente = $repository->find($dni);
     // borrado
     $em = $this->getDoctrine()->getManager();
-    dump($cliente);
     $em ->remove($cliente);
     $em->flush();
 

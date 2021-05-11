@@ -20,9 +20,7 @@ class usuarioType extends AbstractType
             'first_options'  => ['label' => 'Contraseña'],
             'second_options' => ['label' => 'Repetir Contraseña'],
         ])
-        ->add('registrar',SubmitType::class, array('label' => 'Registrar'));
-
-
+        ->add('Guardar',SubmitType::class, array('label' => 'Guardar'));
     }
 }
 

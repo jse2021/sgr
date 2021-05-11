@@ -1,7 +1,6 @@
 <?php
 
 namespace AppBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,122 +13,106 @@ use Symfony\Component\Validator\Constraints as Assert;
 class usuario implements UserInterface, \Serializable
 {
 
-
   /**
-       * @ORM\Column(type="string", length=254, unique=true)
-       *@ORM\Id
-       */
-      private $username;
+     * @ORM\Column(type="string", length=64, unique=true)
+     * @ORM\Id
+     */
+    private $username;
 
-        /**
-         * @Assert\NotBlank
-         * @Assert\Length(max=4096)
-         */
+    /**
+     * @Assert\NotBlank
+     * @Assert\Length(max=64)
+     */
       private $plainPassword;
-
-      /**
-       * @ORM\Column(type="string", length=64)
-       */
+        
+    /**
+     * @ORM\Column(type="string", length=64)
+     */
       private $password;
 
-      /**
-       * @ORM\Column(name="is_active", type="boolean")
-       */
+    /*
+     * @ORM\Column(name="is_active", type="boolean")
+     */
       private $isActive;
 
-      public function __construct()
-      {
-          $this->isActive = true;
-          // may not be needed, see section on salt below
-          // $this->salt = md5(uniqid('', true));
-      }
+     public function __construct()
+     {
+        $this->isActive = true;
+     }
 
-      public function setUsername($username)
-      {
-          return $this->username=$username;
-      }
+     public function setUsername($username)
+     {
+        return $this->username=$username;
+     }
 
-      public function getUsername()
-      {
-          return $this->username;
-      }
+     public function getUsername()
+     {
+        return $this->username;
+     }
 
-      public function getSalt()
-      {
-          // you *may* need a real salt depending on your encoder
-          // see section on salt below
-          return null;
-      }
+     public function getSalt()
+     {
+        return null;
+     }
 
-      public function getPlainPassword()
-      {
-          return $this->plainPassword;
-      }
+     public function getPlainPassword()
+     {
+        return $this->plainPassword;
+     }
 
-      public function setPlainPassword($password)
-      {
-          $this->plainPassword = $password;
-      }
+     public function setPlainPassword($password)
+     {
+        $this->plainPassword = $password;
+     }
 
-      public function setPassword($password)
-      {
-          return $this->password=$password;
-      }
+     public function setPassword($password)
+     {
+        return $this->password=$password;
+     }
 
-      public function getPassword()
-      {
-          return $this->password;
-      }
+     public function getPassword()
+     {
+        return $this->password;
+     }
 
-      public function getRoles()
-      {
-          return ['ROLE_USER'];
-      }
+     public function getRoles()
+     {
+        return ['ROLE_USER'];
+     }
 
       public function eraseCredentials()
       {
       }
 
-              /** |@see \Serializable::serialize() */
-              public function serialize()
-              {
-                  return serialize([
-                    //  $this->id,
-                      $this->username,
-                      $this->password,
-                      // see section on salt below
-                      // $this->salt,
-                  ]);
-              }
-
-              /** @see \Serializable::unserialize() */
-              public function unserialize($serialized)
-              {
-                  list (
-                    //  $this->id,
-                      $this->username,
-                      $this->password,
-                      // see section on salt below
-                      // $this->salt
-                  ) = unserialize($serialized, ['allowed_classes' => false]);
-              }
+    /** |@see \Serializable::serialize() */
+        public function serialize()
+        {
+         return serialize([
+         $this->username,
+         $this->password,
+        ]);
+        }
+    /** @see \Serializable::unserialize() */
+        public function unserialize($serialized)
+        {
+        list (
+         $this->username,
+         $this->password,
+         ) = unserialize($serialized, ['allowed_classes' => false]);
+         }
 
 
 
-/*RELACION ENTRE TABLAS*/
-// ...
-
+/*RELACION ENTRE TABLAS DE LA BASE DE DATOS*/
    /**
     * @ORM\OneToMany(targetEntity="cliente", mappedBy="usuario")
     */
    private $cliente;
-
-      /**
-       * @ORM\OneToMany(targetEntity="reserva", mappedBy="usuario")
-       */
-      private $reserva;
-
-
+    
+   /**
+     * @ORM\OneToMany(targetEntity="reserva", mappedBy="usuario")
+     */
+    private $reserva;
 
     /**
      * Add cliente
@@ -138,12 +121,11 @@ class usuario implements UserInterface, \Serializable
      *
      * @return usuario
      */
-    public function addCliente(\AppBundle\Entity\cliente $cliente)
-    {
+      public function addCliente(\AppBundle\Entity\cliente $cliente)
+      {
         $this->cliente[] = $cliente;
-
         return $this;
-    }
+      }
 
     /**
      * Remove cliente
@@ -152,7 +134,7 @@ class usuario implements UserInterface, \Serializable
      */
     public function removeCliente(\AppBundle\Entity\cliente $cliente)
     {
-        $this->cliente->removeElement($cliente);
+       $this->cliente->removeElement($cliente);
     }
 
     /**
@@ -162,10 +144,8 @@ class usuario implements UserInterface, \Serializable
      */
     public function getCliente()
     {
-        return $this->cliente;
+      return $this->cliente;
     }
-
-
 
     /**
      * Set isActive
@@ -176,9 +156,8 @@ class usuario implements UserInterface, \Serializable
      */
     public function setIsActive($isActive)
     {
-        $this->isActive = $isActive;
-
-        return $this;
+      $this->isActive = $isActive;
+      return $this;
     }
 
     /**
@@ -188,7 +167,7 @@ class usuario implements UserInterface, \Serializable
      */
     public function getIsActive()
     {
-        return $this->isActive;
+       return $this->isActive;
     }
 
     /**
@@ -200,9 +179,8 @@ class usuario implements UserInterface, \Serializable
      */
     public function addReserva(\AppBundle\Entity\reserva $reserva)
     {
-        $this->reserva[] = $reserva;
-
-        return $this;
+      $this->reserva[] = $reserva;
+      return $this;
     }
 
     /**
@@ -212,7 +190,7 @@ class usuario implements UserInterface, \Serializable
      */
     public function removeReserva(\AppBundle\Entity\reserva $reserva)
     {
-        $this->reserva->removeElement($reserva);
+       $this->reserva->removeElement($reserva);
     }
 
     /**
@@ -222,6 +200,6 @@ class usuario implements UserInterface, \Serializable
      */
     public function getReserva()
     {
-        return $this->reserva;
+      return $this->reserva;
     }
 }

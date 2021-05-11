@@ -1,11 +1,12 @@
 <?php
 namespace AppBundle\Controller;
-
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\usuario;
 use AppBundle\form\nuevoUsuarioType;
+use AppBundle\form\usuarioType;
 use AppBundle\form\consultarUsuarioType;
 
 
@@ -16,31 +17,39 @@ use AppBundle\form\consultarUsuarioType;
 
 class gestionUsuariosController extends Controller
 {
-          //
-          // /**
-          //  * @Route("/nuevoUsuario", name="nuevoUsuario")
-          //  */
-          //  public function nuevoUsuarioAction(Request $request)
-          // {
-          //     $usuario = new usuario();
-          //     $form = $this->createForm(nuevoUsuarioType::class, $usuario);
-          //     $form ->handleRequest($request);
-          //
-          //     if ($form->isSubmitted() && $form->isValid()) {
-          //           // rellenar el entity tapa
-          //           $user = $form->getData();
-          //          //almacenar nueva tapa
-          //           $em = $this->getDoctrine()->getManager();
-          //           // objeto a almacenar "tapa"
-          //           $em ->persist($user);
-          //           //finalizar comunicacion con bd
-          //           $em->flush();
-          //           // al crear, redirije a la ruta tapa con el id de la nueva tapa
-          //           return $this->redirectToRoute('nuevoUsuario');
-          //    }
-          //     /*de esta forma habilito para usar las variables en index*/
-          //     return $this->render('gestionUsuarios/nuevoUsuario.html.twig',array('form' => $form->createView()));
-          // }
+
+  
+    /**
+     * @Route("/nuevoUsuario/", name="nuevoUsuario")
+     */
+    public function altaUsuarioAction(Request $request,UserPasswordEncoderInterface $passwordEncodert)
+    {
+      $usuario= new usuario();
+      /*CONSTRUYENDO FORMULARIO*/
+      $form = $this->createForm(usuarioType::class, $usuario);
+      /*Recoger la informacion del submit*/
+      $form ->handleRequest($request);
+
+      if ($form->isSubmitted() && $form->isValid()) {
+        // 2) Encode the password (you could also do this via Doctrine listener)
+            $password = $passwordEncodert->encodePassword($usuario, $usuario->getPlainPassword());
+            $usuario->setPassword($password);
+
+
+            // 4) save the User!
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($usuario);
+            $entityManager->flush();
+            // al crear, redirije a la ruta tapa con el id de la nueva tapa
+            return $this->redirectToRoute('login');
+     }
+
+
+      /*de esta forma habilito para usar las variables en index*/
+        return $this->render('gestionUsuarios/nuevoUsuario.html.twig',array('form' => $form->createView()));
+    }
+
+
 /**
 * @Route("/consultarUsuario", name="consultarUsuario")
  */

@@ -36,3 +36,7 @@ security:
 
             # https://symfony.com/doc/current/security/form_login_setup.html
             #form_login: ~
+    access_control:
+                  - { path: '^/gestionUsuarios', roles: [ROLE_ADMIN] }
+                  # - { path: '^/gestionClientes', roles: [ROLE_USER,ROLE_ADMIN] }
+                  

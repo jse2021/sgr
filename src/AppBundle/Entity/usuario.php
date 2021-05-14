@@ -12,6 +12,33 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class usuario implements UserInterface, \Serializable
 {
+    /**
+     * @var string
+     *
+     * @Assert\Regex(
+     *      pattern="/\d/",
+     *      match=false,
+     *      message = "El nombre no puede contener numeros")
+     * @ORM\Column(name="nombre", type="string", length=255)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     ** @Assert\Regex(
+     *      pattern="/\d/",
+     *      match=false,
+     *      message = "El apellido no puede contener numeros")
+     * @ORM\Column(name="apellido", type="string", length=255)
+     */
+    private $apellido;
+
+   /**
+     * @var int
+     *
+     * @ORM\Column(name="celular", type="integer")
+     */
+    private $celular;
 
   /**
      * @ORM\Column(type="string", length=64, unique=true)
@@ -30,10 +57,16 @@ class usuario implements UserInterface, \Serializable
      */
       private $password;
 
+   /** 
+     * @ORM\Column(type="string", length=254)
+     */
+      private $roles;
+
     /*
      * @ORM\Column(name="is_active", type="boolean")
      */
       private $isActive;
+
 
      public function __construct()
      {
@@ -75,9 +108,18 @@ class usuario implements UserInterface, \Serializable
         return $this->password;
      }
 
+     public function setRoles($roles)
+     {
+         $roles_json=json_encode($roles);
+         return $this->roles=$roles_json;
+     }
+
      public function getRoles()
      {
-        return ['ROLE_USER'];
+       /*toma el tipo de rol del usuario cuando
+       se loguea*/
+       $roles=json_decode($this->roles);
+       return $roles;
      }
 
       public function eraseCredentials()
@@ -201,5 +243,77 @@ class usuario implements UserInterface, \Serializable
     public function getReserva()
     {
       return $this->reserva;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     *
+     * @return usuario
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * Set apellido
+     *
+     * @param string $apellido
+     *
+     * @return usuario
+     */
+    public function setApellido($apellido)
+    {
+        $this->apellido = $apellido;
+
+        return $this;
+    }
+
+    /**
+     * Get apellido
+     *
+     * @return string
+     */
+    public function getApellido()
+    {
+        return $this->apellido;
+    }
+
+    /**
+     * Set celular
+     *
+     * @param integer $celular
+     *
+     * @return usuario
+     */
+    public function setCelular($celular)
+    {
+        $this->celular = $celular;
+
+        return $this;
+    }
+
+    /**
+     * Get celular
+     *
+     * @return integer
+     */
+    public function getCelular()
+    {
+        return $this->celular;
     }
 }

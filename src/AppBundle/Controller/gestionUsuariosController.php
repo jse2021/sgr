@@ -16,9 +16,7 @@ use AppBundle\form\consultarUsuarioType;
 **/
 
 class gestionUsuariosController extends Controller
-{
-
-  
+{  
     /**
      * @Route("/nuevoUsuario/", name="nuevoUsuario")
      */
@@ -31,21 +29,27 @@ class gestionUsuariosController extends Controller
       $form ->handleRequest($request);
 
       if ($form->isSubmitted() && $form->isValid()) {
-        // 2) Encode the password (you could also do this via Doctrine listener)
             $password = $passwordEncodert->encodePassword($usuario, $usuario->getPlainPassword());
             $usuario->setPassword($password);
-
-
-            // 4) save the User!
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($usuario);
-            $entityManager->flush();
-            // al crear, redirije a la ruta tapa con el id de la nueva tapa
-            return $this->redirectToRoute('login');
+            $rol = array();
+            if ($rol == $form->getData(['Estandar']))
+            {
+                $usuario->setRoles(array('ROLE_USER'));
+            } 
+              if($rol == $form->getData(['Administrador'])) 
+              {
+                $usuario->setRoles(array('ROLE_ADMIN'));
+              }
+              if ($rol == $form->getData(['Administrador']) && $form->getData(['Estandar']))
+              {
+                $usuario->setRoles(array('ROLE_ADMIN','ROLE_USER'));
+              }
+              $entityManager = $this->getDoctrine()->getManager();
+              $entityManager->persist($usuario);
+              $entityManager->flush();
+              return $this->redirectToRoute('login');
      }
-
-
-      /*de esta forma habilito para usar las variables en index*/
+    //  $bool = StringUtils::equals($password1, $password2);
         return $this->render('gestionUsuarios/nuevoUsuario.html.twig',array('form' => $form->createView()));
     }
 

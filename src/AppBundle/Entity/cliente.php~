@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * cliente
@@ -13,25 +14,42 @@ use Doctrine\ORM\Mapping as ORM;
 class cliente
 {
 
+   
+
     /**
      * @var int
-     *
-     * @ORM\Column(name="dni", type="integer", unique=true)
+     * @Assert\Length(min=8,
+     *                max=8,
+     *                exactMessage ="El dni debe contener exactamente 8 caracteres"
+     * )
+     * @ORM\Column(name="dni", type="integer", unique=true, nullable = false)
      *@ORM\GeneratedValue(strategy="NONE")
      *@ORM\Id
+     *
      */
     private $dni;
 
     /**
      * @var string
      *
+     * @Assert\Regex(
+     *      pattern="/\d/",
+     *      match=false,
+     *      message = "El nombre no puede contener numeros")
+     * 
+     * 
      * @ORM\Column(name="nombre", type="string", length=255)
      */
     private $nombre;
 
     /**
      * @var string
-     *
+     ** @Assert\Regex(
+     *      pattern="/\d/",
+     *      match=false,
+     *      message = "El apellido no puede contener numeros")
+     * 
+     * 
      * @ORM\Column(name="apellido", type="string", length=255)
      */
     private $apellido;
@@ -223,5 +241,29 @@ class cliente
     public function getReserva()
     {
         return $this->reserva;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return cliente
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 }

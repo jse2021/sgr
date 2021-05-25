@@ -46,16 +46,18 @@
       
           {# cuando haya un usuario logueado #}
             {% if app.user %}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
             {% for flash_message in app.session.flashbag.get('error') %}
               <div class="flash-error">
               {{flash_message}}
               </div>
             {% endfor %}
-
+              <li class="nav-item">
+                <p class="nav-link">Bienvenido: {{ app.user.nombre}} {{app.user.apellido}}</p>
+              </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{path('principal')}}">Principal</a>
               </li>
-
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Clientes
@@ -87,8 +89,50 @@
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="{{path('logout')}}">Salir</a>
-                    </li>               
-                  
+                    </li>                 
+            {% endif %}
+
+              {% if is_granted('ROLE_USER') %}
+              {% for flash_message in app.session.flashbag.get('error') %}
+              <div class="flash-error">
+              {{flash_message}}
+              </div>
+            {% endfor %}
+              <li class="nav-item">
+                <p class="nav-link">Bienvenido: {{ app.user.nombre}} {{app.user.apellido}}</p>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{path('principal')}}">Principal</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Clientes
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="{{path('nuevoCliente')}}">Nuevo Cliente</a>
+                  <a class="dropdown-item" href="{{path('consultarCliente')}}">Consultar Cliente</a>
+
+                </li>
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Reservas
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{path('nuevaReserva')}}">Crear Reserva</a>
+                    <a class="dropdown-item" href="{{path('consultarReservaPorCliente')}}">Consultar Reservas por Cliente</a>
+                    <a class="dropdown-item" href="{{path('consultarReservaPorCancha')}}">Disponibilidad por Cancha</a>
+
+                  </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{path('logout')}}">Salir</a>
+                    </li>                 
+              
+              {% endif %}
+            
+
+            <!-- /.container -->
+          </footer>    
                   {% endif %}
                   <!--fin del if-->
 
@@ -113,7 +157,7 @@
 
           <footer class="py-5 bg-light ">
             <div class="container">
-              <p class="m-2 text-center text-black">Copyright &copy; SGR</p>
+              <p class="m-2 text-center text-black">Copyright &copy; SGR</p>              
             </div>
             <!-- /.container -->
           </footer>

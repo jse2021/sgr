@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% block titulo %}
+  Usuarios
+{% endblock %}
+
+    {% block contenido %}
+        <h1 class="mt-4 mb-3">Usuario</h1>
+        <div class="row">
+            <div class="col-md-2"></div>
+                <div class="col-md-8">
+                        <table class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                <th scope="col">Editar</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellido</th>
+                                <th scope="col">Celular</th>
+                                <th scope="col">Usuario</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Borrar</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                    <tr>
+                                        {# es el usuario que va a recibir el controlador de usuarios, para que luego traiga los datos al dar editar un usuario #}
+                                        <th scope="row"><a href="{{path('nuevoUsuario',{'username':usuario.username})}}"><i class ="fas fa-pencil-alt"></i></a></th> 
+                                            <td>{{usuario.nombre}}</td> 
+                                            <td>{{usuario.apellido}}</td> 
+                                            <td>{{usuario.celular}}</td>
+                                            <td>{{usuario.username}}</td>
+                                                {% if usuario.roles == ['ROLE_USER'] %}
+                                                    <td>Estandar</td> 
+                                                {% elseif usuario.roles == ['ROLE_SUPER_ADMIN']  %}
+                                                    <td>Administrador</td> 
+                                                {% endif %}
+                                        {# esta opcion, realiza el borrado de un cliente, pasa por parametro a la funcion borrarCliente el dni del cliente
+                                            y la fecha para el popup #}
+                                        <th scope="row"><a href="#" onClick="return controlBorrado('{{path('borrarUsuario',{'username':usuario.username})}}');"><i class="fas fa-trash-alt"></i></a></th>
+                                    </tr>
+                                </tbody>
+                        </table>
+                <div class="col-md-2"></div> 
+            </div>
+        </div>
+  </div>
+
+    {% endblock %}
+

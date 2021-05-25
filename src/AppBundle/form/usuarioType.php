@@ -17,20 +17,23 @@ class usuarioType extends AbstractType
         $builder
         ->add('nombre', TextType::class)
         ->add('apellido', TextType::class)
-        ->add('celular', NumberType::class)
+        ->add('celular', NumberType::class,['invalid_message'=>'Se ingresaron datos invalidos'])
         ->add('username', TextType::class,array('label' => 'Usuario'))
         ->add('plainPassword', RepeatedType::class, [
               'type' => PasswordType::class,
+              'invalid_message' => 'Se encontraron diferencias en las contraseñas',
               'first_options'  => ['label' => 'Contraseña'],
               'second_options' => ['label' => 'Repetir Contraseña'],
         ])
         ->add('roles', ChoiceType::class, [
-              'multiple' => true,
-              'expanded' => true, 
+              'multiple' => false,
+              'expanded' => false,
               'choices' => [
               'Estandar' => 'ROLE_USER',
-              'Administrador' => 'ROLE_ADMIN',
-    ],
+              'Administrador' => 'ROLE_SUPER_ADMIN',
+        ],
+              'mapped' => false,
+              'label' => 'Tipo de Usuario '
 ])
         ->add('Guardar',SubmitType::class, array('label' => 'Guardar'));
         

@@ -18,7 +18,7 @@ class nuevoClienteType extends AbstractType
         ->add('nombre', TextType::class )
         ->add('apellido', TextType::class)
         ->add('email', EmailType::class)
-        ->add('celular', NumberType::class)
+        ->add('celular', NumberType::class,['invalid_message'=>'Se ingresaron datos invalidos'])
         ->add('Guardar',SubmitType::class, array('label' => 'Guardar'));
 
 

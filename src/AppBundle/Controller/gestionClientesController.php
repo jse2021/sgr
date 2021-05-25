@@ -40,8 +40,7 @@ $form ->handleRequest($request);
          ->findOneBy(['dni' => $campoDni]);
       
            if ($cliente === null){
-             $this->addFlash('warning',
-             'No existe el cliente');                     
+             $this->addFlash('warning','No existe el cliente');                     
              } else { 
              return $this->render('gestionclientes/Cliente.html.twig',array("cliente" => $cliente));
          }
@@ -109,17 +108,16 @@ $form ->handleRequest($request);
                   if($clienteBd) {
                     $this->addFlash('warning',
                     'Cliente existente');  
-                   }
-                   
-                   
-                  
-
-    }  
+                   }                                     
+                } elseif ($form->isSubmitted() && (!$form->isValid())){
+                    $this->addFlash('warning',
+                    'Se han encontrado errores en el formulario'); 
+    } 
     /*de esta forma habilito para usar las variables en index*/
       return $this->render('gestionClientes/nuevoCliente.html.twig',array('form' => $form->createView()));
   }
 
-  /**
+/**
  * @Route("/borrar/{dni}", name="borrarCliente")
  *
  */

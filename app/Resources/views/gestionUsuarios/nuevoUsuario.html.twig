@@ -3,14 +3,27 @@
   {% block titulo %}
       Nuevo Usuario
   {% endblock %}
-
   {% block contenido %}
+
   <div class="container">
       <h1 class="text-center display-4">
         Nuevo Usuario
       </h1>
+
     <div class="row">
-      <div class="col-md-8">
+        <div class="col-md-8">
+         {% for message in app.flashes('warning')%}
+        <div class="alert alert-warning">
+            {{message}}
+        </div>
+      {% endfor %} 
+      {% for message in app.flashes('success')%}
+        <div class="alert alert-success">
+            {{message}}
+        </div>
+        
+      {% endfor %}
+
         {{ form_start(form) }}
         {{ form_widget(form) }}
         {{ form_end(form) }}

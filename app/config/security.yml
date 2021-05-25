@@ -24,7 +24,7 @@ security:
               # lleva el nombre del archivo que hayamos puesto en el controller., al archivo login por ejemplo.
                 login_path: login
                 check_path: login
-
+            # access_denied_handler: AppBundle\Seguridad\AccessDeniedHandler
             # activate different ways to authenticate
             logout:
               # path: saca de la aplicacion - target: te lleva al raiz
@@ -37,6 +37,6 @@ security:
             # https://symfony.com/doc/current/security/form_login_setup.html
             #form_login: ~
     access_control:
-                  - { path: '^/gestionUsuarios', roles: [ROLE_ADMIN] }
+                  - { path: '^/gestionUsuarios', roles: [ROLE_SUPER_ADMIN] }
                   # - { path: '^/gestionClientes', roles: [ROLE_USER,ROLE_ADMIN] }
                   

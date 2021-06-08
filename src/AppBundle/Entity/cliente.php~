@@ -56,8 +56,11 @@ class cliente
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="celular", type="integer")
+     * @Assert\Length(min=10,
+     *                max=10,
+     *                exactMessage ="El celular debe contener exactamente 10 caracteres"
+     * )
+     * @ORM\Column(name="celular", type="string",length=10)
      */
     private $celular;
 

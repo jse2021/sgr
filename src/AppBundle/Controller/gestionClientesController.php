@@ -60,10 +60,10 @@ $form ->handleRequest($request);
   $clienteBd = $this->getDoctrine()->getRepository('AppBundle:Cliente')
   ->findOneBy(['dni' => $dni]);
         
-      if($dni){
+      if($dni) {
             $repository = $this->getDoctrine()->getRepository(Cliente::class);        
             $ncliente = $repository->find($dni);    
-        }else {
+      }else {
            $ncliente = new cliente();
              }
 
@@ -74,9 +74,7 @@ $form ->handleRequest($request);
     
                 if ($form->isSubmitted() && $form->isValid()) {
                   $campoDni = $form->getData(['dni']);
-                  $clienteBd = $this->getDoctrine()->getRepository('AppBundle:Cliente')
-                  ->findOneBy(['dni' => $campoDni]);
-                  
+                  $clienteBd = $this->getDoctrine()->getRepository('AppBundle:Cliente')->findOneBy(['dni' => $campoDni]);
                  if($clienteBd == $campoDni){ 
                   // rellenar el entity cliente
                   $cliente = $form->getData();

@@ -318,4 +318,6 @@ class usuario implements UserInterface, \Serializable
     {
         return $this->celular;
     }
+
+    
 }

@@ -19,7 +19,7 @@ class gestionUsuariosController extends Controller
  * @Route("/nuevoUsuario/{username}", name="nuevoUsuario")
  */
 public function altaUsuarioAction(Request $request,UserPasswordEncoderInterface $passwordEncodert, $username = null) {      
-// $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
+
 $usuarioBd = $this->getDoctrine()->getRepository('AppBundle:Usuario')->findOneBy(['username' => $username]);
   if($username) {
     $repository = $this->getDoctrine()->getRepository(Usuario::class);        

@@ -1,23 +1,33 @@
 {% extends 'base.html.twig' %}
+{% form_theme form 'form/reservaForm.html.twig' %}
 
-{% block titulo %}
-    nueva reserva
+{% block titulo %}Nueva reserva
 {% endblock %}
 {% block contenido %}
-<div class="container">
-<h1 class="text-center display-4">
-Nueva Reserva
-</h1>
-
-<div class="row">
-
-  <div class="col-md-8">
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+  <div class="container">
+    <h1 class="text-center display-4">Nueva Reserva </h1>
+      <div class="row">
+      <div class="col-md-8">
+          {{ form_start(form)}}
+            {% for message in app.flashes('success')%}
+              <div class="alert alert-success">
+                  {{message}}
+              </div>
+            {% for message in app.flashes('warning')%}
+              <div class="alert alert-warning">
+                {{message}}
+              </div>
+            {% endfor %}
+            {% endfor %}
+          {{ form_widget(form)}}
+          {{ form_end(form)}}
+        </div>
+      </div>
   </div>
+{% endblock %}
 
-</div>
-</div>
 
+{% block stylesheets %}
+{% endblock %}
+{% block javascripts %}
 {% endblock %}

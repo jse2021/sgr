@@ -15,20 +15,35 @@ use AppBundle\form\consultarReservaPorCanchaType;
  */
 class gestionReservasController extends Controller
 {
-
   /**
    * @Route("/nuevaReserva", name="nuevaReserva")
    */
-   public function nuevaReservaAction(Request $request)
-  {
+   public function nuevaReservaAction(Request $request) {     
+    $nReserva = new reserva();
+    $form = $this->createForm(nuevaReservaType::class,$nReserva);
+    $form ->handleRequest($request);    
 
-            $nReserva = new reserva();
-            /*construyo formulario*/
-            $form = $this->createForm(nuevaReservaType::class,$nReserva);
-
-            return $this->render('gestionReservas/nuevaReserva.html.twig',array('form' => $form->createView()));
+      if ($form->isSubmitted() && $form->isValid()) {
+        $reserva = $form->getData();
+        $nombre = $form->getData(['nombre']);
+        dump($nombre);
+        $em = $this->getDoctrine()->getManager();
+        $em ->persist($reserva,$nombre);
+        $em->flush();
+        $this->addFlash('success','Reserva creada con éxito');          
+        return $this->redirectToRoute('nuevaReserva');
+      } 
+    return $this->render('gestionReservas/nuevaReserva.html.twig',array('form' => $form->createView()));
   }
 
+
+
+
+
+
+
+
+ 
   /**
    * @Route("/consultarReservaPorCliente", name="consultarReservaPorCliente")
    */

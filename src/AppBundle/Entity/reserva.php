@@ -10,347 +10,160 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="reserva")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\reservaRepository")
  */
-class reserva
-{
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+class reserva {
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="monto", type="decimal", precision=2, scale=0)
-     */
-    private $monto;
+/**
+ * @var int
+ *
+ * @ORM\Column(name="id", type="integer")
+ * @ORM\Id
+ * @ORM\GeneratedValue(strategy="AUTO")
+ */
+private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="estado", type="string", length=255)
-     */
-    private $estado;
+/**
+ * @var int
+ *
+ * @ORM\Column(name="dniCliente", type="integer")
+ */
+private $dniCliente;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="hora_inicio", type="datetime")
-     */
-    private $horaInicio;
+/**
+ * @var \DateTime
+ *
+ * @ORM\Column(name="fecha_reserva", type="datetime")
+ */
+private $fechaReserva;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="hora_fin", type="datetime")
-     */
-    private $horaFin;
+/**
+ * @var \Time
+ *
+ * @ORM\Column(name="hora", type="time")
+ */
+private $hora;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="fecha_reserva", type="datetime")
-     */
-    private $fechaReserva;
+/**
+ * @var 
+ *
+ * @ORM\Column(name="monto", type="decimal", precision=30, scale=2)
+ */
+private $monto;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="fecha", type="datetime")
-     */
-    private $fecha;
+/**
+ * @var string
+ *
+ * @ORM\Column(name="observaciones", type="string", length=255, nullable = true)
+ */
+private $observaciones;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="hora", type="time")
-     */
-    private $hora;
+/* METODOS GET Y SET */
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="dni", type="integer")
-     *
-     *
-     */
-    private $dniCliente;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nombre", type="string", length=255)
-     */
-    private $nombre;
+/**
+ * Set dni
+ *
+ * @param integer $dni
+ *
+ * @return cliente
+ */
+public function setDniCliente($dniCliente){
+    $this->dniCliente = $dniCliente;
+    return $this;
+}
 
+/**
+ * Get dni
+ *
+ * @return int
+ */
+public function getDniCliente(){
+    return $this->dniCliente;
+}
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="apellido", type="string", length=255)
-     */
-    private $apellido;
+/**
+ * Set fechaReserva
+ * @param \DateTime $fechaReserva
+ * @return reserva
+ */
+public function setFechaReserva($fechaReserva){
+    $this->fechaReserva = $fechaReserva;
+    return $this;
+}
 
-        /**
-         * @var string
-         *
-         * @ORM\Column(name="tamano", type="string", length=255)
-         */
-        private $tamano;
+/**
+ * Get fechaReserva
+ * @return \DateTime
+ */
+public function getFechaReserva() {
+    return $this->fechaReserva;
+}
 
+/**
+ * Set hora
+ * @param \Time $hora
+ * @return reserva
+ */
+public function setHora($hora){
+    $this->hora = $hora;
+    return $this;
+}
 
-        /**
-         * @var string
-         *
-         * @ORM\Column(name="tipo_Monto", type="string", length=255)
-         */
-        private $tipo_Monto;
+/**
+ * Get hora
+ *
+ * @return \Time
+ */
+public function getHora() {
+    return $this->hora;
+}
 
+/**
+ * Set monto
+ *
+ * @param integer $monto
+ *
+ * @return reserva
+ */
+public function setMonto($monto) {
+    $this->monto = $monto;
+    return $this;
+}
 
-        /**
-         * Get tamano
-         *
-         * @return string
-         */
-        public function getTamano()
-        {
-            return $this->tamano;
-        }
+/**
+ * Get monto
+ *
+ * @return integer
+ */
+public function getMonto() {
+    return $this->monto;
+}
 
+/**
+ * Set observaciones
+ * @param string $observaciones
+ * @return reserva
+ */
+public function setObservaciones($observaciones) {
+    $this->observaciones = $observaciones;
+    return $this;
+}
 
-        /**
-         * Get tipoMonto
-         *
-         * @return string
-         */
-        public function getTipoMonto()
-        {
-            return $this->tipoMonto;
-        }
+/**
+ * Get observaciones
+ * @return string
+ */
+public function getObservaciones() {
+    return $this->observaciones;
+}
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+/**
+ * Get id
+ *
+ * @return int
+ */
+public function getId() {
+    return $this->id;
+}
 
-    /**
-     * Set monto
-     *
-     * @param string $monto
-     *
-     * @return reserva
-     */
-    public function setMonto($monto)
-    {
-        $this->monto = $monto;
-
-        return $this;
-    }
-
-    /**
-     * Get monto
-     *
-     * @return string
-     */
-    public function getMonto()
-    {
-        return $this->monto;
-    }
-
-    /**
-     * Set estado
-     *
-     * @param string $estado
-     *
-     * @return reserva
-     */
-    public function setEstado($estado)
-    {
-        $this->estado = $estado;
-
-        return $this;
-    }
-
-    /**
-     * Get estado
-     *
-     * @return string
-     */
-    public function getEstado()
-    {
-        return $this->estado;
-    }
-
-    /**
-     * Set horaInicio
-     *
-     * @param \DateTime $horaInicio
-     *
-     * @return reserva
-     */
-    public function setHoraInicio($horaInicio)
-    {
-        $this->horaInicio = $horaInicio;
-
-        return $this;
-    }
-
-    /**
-     * Get horaInicio
-     *
-     * @return \DateTime
-     */
-    public function getHoraInicio()
-    {
-        return $this->horaInicio;
-    }
-
-    /**
-     * Set horaFin
-     *
-     * @param \DateTime $horaFin
-     *
-     * @return reserva
-     */
-    public function setHoraFin($horaFin)
-    {
-        $this->horaFin = $horaFin;
-
-        return $this;
-    }
-
-    /**
-     * Get horaFin
-     *
-     * @return \DateTime
-     */
-    public function getHoraFin()
-    {
-        return $this->horaFin;
-    }
-
-    /**
-     * Set fechaReserva
-     *
-     * @param \DateTime $fechaReserva
-     *
-     * @return reserva
-     */
-    public function setFechaReserva($fechaReserva)
-    {
-        $this->fechaReserva = $fechaReserva;
-
-        return $this;
-    }
-
-    /**
-     * Get fechaReserva
-     *
-     * @return \DateTime
-     */
-    public function getFechaReserva()
-    {
-        return $this->fechaReserva;
-    }
-
-    /**
-     * Set fecha
-     *
-     * @param \DateTime $fecha
-     *
-     * @return reserva
-     */
-    public function setFecha($fecha)
-    {
-        $this->fecha = $fecha;
-
-        return $this;
-    }
-
-    /**
-     * Get fecha
-     *
-     * @return \DateTime
-     */
-    public function getFecha()
-    {
-        return $this->fecha;
-    }
-
-    /**
-     * Set hora
-     *
-     * @param \DateTime $hora
-     *
-     * @return reserva
-     */
-    public function setHora($hora)
-    {
-        $this->hora = $hora;
-
-        return $this;
-    }
-
-    /**
-     * Get hora
-     *
-     * @return \DateTime
-     */
-    public function getHora()
-    {
-        return $this->hora;
-    }
-
-    /**
-     * Set dni
-     *
-     * @param integer $dni
-     *
-     * @return cliente
-     */
-    public function setDniCliente($dni)
-    {
-        $this->dniCLiente = $dniCliente;
-
-        return $this;
-    }
-
-    /**
-     * Get dni
-     *
-     * @return int
-     */
-    public function getDniCliente()
-    {
-        return $this->dniCliente;
-    }
-    /**
-     * Get nombre
-     *
-     * @return string
-     */
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
-
-
-    /**
-     * Get apellido
-     *
-     * @return string
-     */
-    public function getApellido()
-    {
-        return $this->apellido;
-    }
 
 /*RELACIONO ENTRE TABLAS*/
 
@@ -368,141 +181,95 @@ private $cliente;
 */
 private $cancha;
 
-
 /**
 *
 * @ORM\ManyToOne(targetEntity="tipoMonto", inversedBy="reserva")
-* @ORM\JoinColumn(name="tipo_Monto", referencedColumnName="descripcion")
+* @ORM\JoinColumn(name="tipoMonto", referencedColumnName="descripcion")
 */
 private $tipoMonto;
 
+/**
+ * Set usuario
+ *
+ * @param \AppBundle\Entity\usuario $usuario
+ *
+ * @return reserva
+ */
+public function setUsuario(\AppBundle\Entity\usuario $usuario = null) {
+    $this->usuario = $usuario;
+    return $this;
+}
 
+/**
+ * Get usuario
+ * @return \AppBundle\Entity\usuario
+ */
+public function getUsuario() {
+    return $this->usuario;
+}
 
-    /**
-     * Set nombre
-     *
-     * @param string $nombre
-     *
-     * @return reserva
-     */
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
-
-        return $this;
-    }
-
-    /**
-     * Set apellido
-     *
-     * @param string $apellido
-     *
-     * @return reserva
-     */
-    public function setApellido($apellido)
-    {
-        $this->apellido = $apellido;
-
-        return $this;
-    }
-
-    /**
-     * Set tamano
-     *
-     * @param string $tamano
-     *
-     * @return reserva
-     */
-    public function setTamano($tamano)
-    {
-        $this->tamano = $tamano;
-
-        return $this;
-    }
-
-    /**
-     * Set usuario
-     *
-     * @param \AppBundle\Entity\usuario $usuario
-     *
-     * @return reserva
-     */
-    public function setUsuario(\AppBundle\Entity\usuario $usuario = null)
-    {
-        $this->usuario = $usuario;
-
-        return $this;
-    }
-
-    /**
-     * Get usuario
-     *
-     * @return \AppBundle\Entity\usuario
-     */
-    public function getUsuario()
-    {
-        return $this->usuario;
-    }
-
-    /**
-     * Set cliente
-     *
-     * @param \AppBundle\Entity\cliente $cliente
-     *
-     * @return reserva
-     */
-    public function setCliente(\AppBundle\Entity\cliente $cliente = null)
-    {
+/**
+ * Set cliente
+ *
+ * @param \AppBundle\Entity\cliente $cliente
+ *
+ * @return reserva
+ */
+public function setCliente(\AppBundle\Entity\cliente $cliente = null) {
         $this->cliente = $cliente;
-
         return $this;
-    }
+}
 
-    /**
-     * Get cliente
-     *
-     * @return \AppBundle\Entity\cliente
-     */
-    public function getCliente()
-    {
-        return $this->cliente;
-    }
+/**
+ * Get cliente
+ *
+ * @return \AppBundle\Entity\cliente
+ */
+public function getCliente() {
+    return $this->cliente;
+}
 
-    /**
-     * Set cancha
-     *
-     * @param \AppBundle\Entity\cancha $cancha
-     *
-     * @return reserva
-     */
-    public function setCancha(\AppBundle\Entity\cancha $cancha = null)
-    {
-        $this->cancha = $cancha;
+/**
+ * Set cancha
+ *
+ * @param \AppBundle\Entity\cancha $cancha
+ *
+ * @return reserva
+ */
+public function setCancha(\AppBundle\Entity\cancha $cancha = null) {
+    $this->cancha = $cancha;
+    return $this;
+}
 
-        return $this;
-    }
+/**
+ * Get cancha 
+ * @return \AppBundle\Entity\cancha
+ */
+public function getCancha() {
+    return $this->cancha;
+}
 
-    /**
-     * Get cancha
-     *
-     * @return \AppBundle\Entity\cancha
-     */
-    public function getCancha()
-    {
-        return $this->cancha;
-    }
+/**
+ * Set tipoMonto
+ *
+ * @param string $tipoMonto
+ *
+ * @return reserva
+ */
+public function setTipoMonto($tipoMonto) {
+    $this->tipoMonto = $tipoMonto;
 
-    /**
-     * Set tipoMonto
-     *
-     * @param string $tipoMonto
-     *
-     * @return reserva
-     */
-    public function setTipoMonto($tipoMonto)
-    {
-        $this->tipo_Monto = $tipoMonto;
+    return $this;
+}
 
-        return $this;
-    }
+/**
+ * Get tipoMonto
+ *
+ * @return string
+ */
+public function getTipoMonto() {
+    return $this->tipoMonto;
+}
+
+
 }

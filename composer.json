@@ -30,8 +30,9 @@
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^2.6.4",
         "symfony/symfony": "3.4.*",
-        "tattali/calendar-bundle": "^1.2",
-        "twig/twig": "^1.0||^2.0"
+        "twig/twig": "^1.0||^2.0",
+        "carlescliment/calendar-bundle": "dev-master"
+
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -68,4 +69,6 @@
         },
         "branch-alias": null
     }
+
+
 }

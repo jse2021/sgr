@@ -39,8 +39,7 @@ class nuevaReservaType extends AbstractType
         ->add('fecha_reserva',DateType::class, array(
           'widget' => 'single_text',
           'label' => 'Reserva',
-          
-          // 'attr' => array('class'=>'Calendar', 'read_only' => true)
+          'attr' => array('class'=>'Calendar', 'read_only' => true)
       ))
       ->add('hora', TimeType::class, [
         'input'  => 'datetime',

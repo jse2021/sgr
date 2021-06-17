@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
@@ -36,11 +37,14 @@ class nuevaReservaType extends AbstractType
         ])
         ->add('cancha',EntityType::class, array('class'=>'AppBundle:cancha','label' => 'Cancha'))
 
-        ->add('fecha_reserva',DateType::class, array(
+        ->add('fecha_reserva', DateTimeType::class, array(
+          'attr' =>['class' => 'js-datepicker'],
           'widget' => 'single_text',
           'label' => 'Reserva',
-          'attr' => array('class'=>'Calendar', 'read_only' => true)
-      ))
+          'html5' => false,
+          'format' => 'MM/dd/yyyy'
+          
+        ))
       ->add('hora', TimeType::class, [
         'input'  => 'datetime',
         'widget' => 'single_text',
@@ -55,8 +59,8 @@ class nuevaReservaType extends AbstractType
         ->add('Guardar',SubmitType::class, array('label' => 'Guardar'))
         ->add('Imprimir',SubmitType::class, array('label' => 'Imprimir'));
     }
+    
 
 }
-
 
  ?>

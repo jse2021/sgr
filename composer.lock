@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c59b06e291994b6ddb5fd9cc553ad826",
+    "content-hash": "a21deb33b9f6c365d88529a96b6f14ca",
     "packages": [
         {
             "name": "carlescliment/calendar-bundle",
@@ -1132,6 +1132,53 @@
                 "psr-3"
             ],
             "time": "2019-12-20T14:15:16+00:00"
+        },
+        {
+            "name": "mwsimple/scdatetimepicker-bundle",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MWSimple/SCDatetimepickerBundle.git",
+                "reference": "5774567dea15657ccb1f5d4307fcd68c83a48434"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MWSimple/SCDatetimepickerBundle/zipball/5774567dea15657ccb1f5d4307fcd68c83a48434",
+                "reference": "5774567dea15657ccb1f5d4307fcd68c83a48434",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/framework-bundle": "~2.8 || ~3.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "SC\\DatetimepickerBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephane Collot"
+                }
+            ],
+            "description": "Symfony bundle for Bootstrap DateTime picker",
+            "keywords": [
+                "bootstrap",
+                "bundle",
+                "datepicker",
+                "picker",
+                "symfony",
+                "timepicker"
+            ],
+            "support": {
+                "issues": "https://github.com/MWSimple/SCDatetimepickerBundle/issues",
+                "source": "https://github.com/MWSimple/SCDatetimepickerBundle/tree/master"
+            },
+            "time": "2019-04-27T00:55:03+00:00"
         },
         {
             "name": "paragonie/random_compat",

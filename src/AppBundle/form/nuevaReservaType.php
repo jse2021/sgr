@@ -37,13 +37,12 @@ class nuevaReservaType extends AbstractType
         ])
         ->add('cancha',EntityType::class, array('class'=>'AppBundle:cancha','label' => 'Cancha'))
 
-        ->add('fecha_reserva', DateTimeType::class, array(
-          'attr' =>['class' => 'js-datepicker'],
+        ->add('fecha_reserva', DateType::class, array(
+          'attr' => ['class' => 'form-control'],
           'widget' => 'single_text',
           'label' => 'Reserva',
-          'html5' => false,
-          'format' => 'MM/dd/yyyy'
           
+                    
         ))
       ->add('hora', TimeType::class, [
         'input'  => 'datetime',

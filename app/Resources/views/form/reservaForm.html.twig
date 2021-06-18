@@ -9,8 +9,9 @@
 {%- endblock form_row -%}
 
 {%- block form_widget_simple -%}
-    {%- set type = type|default('text') -%}
+    {%- set type = type|default('date') -%}
     <input type="{{ type }}"class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    <span class="input-group-addon glyphicon glyphicon-calendar input-group-addon"{{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
 {%- endblock form_widget_simple -%}
 
 

@@ -4,8 +4,17 @@
 
 {% block titulo %}Nueva reserva
 {% endblock %}
-{% block stylesheet %}
-  <link rel="stylesheet" href="{{asset('datepicker/datepicker.css')}}">
+{% block head_css %}
+  <link  href="datepicker/css/bootstrap-datetimepicker.css"  rel="stylesheet">
+  <link  href="datepicker/css/bootstrap.css"  rel="stylesheet">
+{% endblock %}
+
+{% block head_js %}
+    <script src="datepicker/js/jquery.js"></script>
+    <script src="datepicker/js/moment.min.js"></script>
+    <script src="datepicker/js/bootstrap.js"></script>
+    <script src="datepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="datepicker/calendario.js"></script>
 {% endblock %}
 
 {% block contenido %}
@@ -36,12 +45,3 @@
   </div>
 {% endblock %}
 
-{% block javascripts %}
-  <script src="{{asset('datepicker/datepicker.js')}}"> </script>
-
-  <script>
-  jQuery(document).ready(function(){
-      $('.js-datepicker').datepicker();
-  });
-  </script>
-{% endblock %}

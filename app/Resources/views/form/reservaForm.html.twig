@@ -8,11 +8,26 @@
     </div>
 {%- endblock form_row -%}
 
-{%- block form_widget_simple -%}
-    {%- set type = type|default('date') -%}
-    <input type="{{ type }}"class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-    <span class="input-group-addon glyphicon glyphicon-calendar input-group-addon"{{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-{%- endblock form_widget_simple -%}
+{# {%- block form_widget_simple -%}
+    {%- set type = type|default('datetype') -%}
+    <input type="{{ type }}"class="form-control datepicker" id="datepicker" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    <input class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{%- endblock form_widget_simple -%} #}
+
+{%- block date_widget -%}
+    {%- set type = type|default('datetype') -%}
+    <input type="{{ type }}"class="form-control datepicker" id="datepicker" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{%- endblock date_widget -%}
+
+{%- block time_widget -%}
+    {%- set type = type|default('timetype') -%}
+    <input class="form-control timepicker" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{%- endblock time_widget -%}
+
+{%- block number_widget -%}
+    {%- set type = type|default('text') -%}
+    <input class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{%- endblock number_widget -%}
 
 
 {%- block textarea_widget -%}

@@ -38,16 +38,25 @@ class nuevaReservaType extends AbstractType
         ->add('cancha',EntityType::class, array('class'=>'AppBundle:cancha','label' => 'Cancha'))
 
         ->add('fecha_reserva', DateType::class, array(
-          'attr' => ['class' => 'form-control'],
+          'attr' => [
+            'class' => 'form-control input-inline datepicker',
+            'id' => 'datepicker',
+            'data-provide' => 'datepicker',
+        ],
           'widget' => 'single_text',
           'label' => 'Reserva',
+          'required' => true,
+          'html5' => false,
           
-                    
         ))
-      ->add('hora', TimeType::class, [
-        'input'  => 'datetime',
+      ->add('hora', TimeType::class, array( 
+        'attr'=> [
+        'class' => 'form-control timepicker', 
+      ],
+        // 'input'  => 'datetime',
         'widget' => 'single_text',
-        ])
+        'html5' => false,
+        ))
         ->add('tipoMonto',EntityType::class, array('class'=>'AppBundle:tipoMonto','label' => 'Estado','mapped' =>true))
         ->add('monto',NumberType::class,['invalid_message'=>'Se ingresaron datos invalidos'],array('label' => 'Monto $ ',
         'precision' => 30))

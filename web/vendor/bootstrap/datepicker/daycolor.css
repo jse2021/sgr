@@ -1,0 +1,14 @@
+.red a {
+    background-color: red !important;
+    border-radius: 5px;
+}
+
+.yellow a {
+    background-color: yellow !important;
+    border-radius: 5px;
+}
+
+.green a {
+    background-color: green !important;
+    border-radius: 5px;
+}

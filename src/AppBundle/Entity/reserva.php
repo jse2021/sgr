@@ -29,9 +29,9 @@ private $id;
 private $dniCliente;
 
 /**
- * @var \DateTime
+ * @var \Date
  *
- * @ORM\Column(name="fecha_reserva", type="datetime")
+ * @ORM\Column(name="fecha_reserva", type="date")
  */
 private $fechaReserva;
 
@@ -81,7 +81,7 @@ public function getDniCliente(){
 
 /**
  * Set fechaReserva
- * @param \DateTime $fechaReserva
+ * @param \Date $fechaReserva
  * @return reserva
  */
 public function setFechaReserva($fechaReserva){
@@ -91,7 +91,7 @@ public function setFechaReserva($fechaReserva){
 
 /**
  * Get fechaReserva
- * @return \DateTime
+ * @return \Date
  */
 public function getFechaReserva() {
     return $this->fechaReserva;

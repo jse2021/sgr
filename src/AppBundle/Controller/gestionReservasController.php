@@ -8,19 +8,35 @@ use AppBundle\Entity\reserva;
 use AppBundle\form\nuevaReservaType;
 use AppBundle\form\consultarReservaPorClienteType;
 use AppBundle\form\consultarReservaPorCanchaType;
-
+use Doctrine\ORM\EntityRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  *@Route ("/gestionReservas")
  */
-class gestionReservasController extends Controller
+class gestionReservasController extends Controller 
 {
   /**
    * @Route("/nuevaReserva", name="nuevaReserva")
    */
    public function nuevaReservaAction(Request $request) {     
+    
     $nReserva = new reserva();
     $form = $this->createForm(nuevaReservaType::class,$nReserva);
+
+    $fechaBd = array();
+    $fechaBd = $this->getDoctrine()->getRepository('AppBundle:Reserva')->findAll();
+    // // dump($fechaBd);
+    // foreach($fechaBd as $e)
+    // {                   
+    //     $fecha = $e->getFechaReserva();
+    //     $hora = $e->getHora();
+    //     dump($fecha);
+    //     dump($hora);
+    //     $array = array($fecha, $hora);
+    // }
+    // return new JsonResponse ($array);
+    
     $form ->handleRequest($request);    
 
       if ($form->isSubmitted() && $form->isValid()) {
@@ -37,13 +53,6 @@ class gestionReservasController extends Controller
   }
 
 
-
-
-
-
-
-
- 
   /**
    * @Route("/consultarReservaPorCliente", name="consultarReservaPorCliente")
    */
@@ -79,5 +88,11 @@ class gestionReservasController extends Controller
 
 }
 
-
  ?>
+
+<script> 
+function haceAlgo(fechaBd){
+	
+}
+
+</script>

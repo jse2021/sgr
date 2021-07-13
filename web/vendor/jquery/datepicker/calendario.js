@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var green = ["2021-06-30"];
+    var green = ["2021-07-29"];
 
     $(function() {
         $(".datepicker").datepicker({

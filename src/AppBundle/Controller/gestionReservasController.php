@@ -14,11 +14,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  *@Route ("/gestionReservas")
  */
+
 class gestionReservasController extends Controller 
 {
 
-
-  
   /**
    * @Route("/nuevaReserva", name="nuevaReserva")
    */
@@ -30,14 +29,14 @@ class gestionReservasController extends Controller
     $fechaBd = array();
     $fechaBd = $this->getDoctrine()->getRepository('AppBundle:Reserva')->findAll();
     // // dump($fechaBd);
-    foreach($fechaBd as $e)
-    {                   
-        $fecha = $e->getFechaReserva();
-        $hora = $e->getHora();
-        dump($fecha);
-        dump($hora);
-        $array = array($fecha, $hora);
-    }
+    // foreach($fechaBd as $e)
+    // {                   
+    //     $fecha = $e->getFechaReserva();
+    //     $hora = $e->getHora();
+    //     dump($fecha);
+    //     dump($hora);
+    //     $array = array($fecha, $hora);
+    // }
     // return new JsonResponse ($array);
     
     $form ->handleRequest($request);    
@@ -91,4 +90,19 @@ class gestionReservasController extends Controller
 
 }
 
- ?>
+?>
+
+
+<script>
+      $(document).ready(function (){
+        pulsacion();
+      });
+
+      function pulsacion() {
+        $("#nueva_reserva_cancha").click(function (){
+          var Vcancha = {cancha:$("#nueva_reserva_cancha").val()}
+          console.log(Vcancha);
+        });
+
+        }
+    </script>

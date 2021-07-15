@@ -35,7 +35,13 @@ class nuevaReservaType extends AbstractType
             return $cliente->getDni().' ' .$cliente->getNombre(). ' '. $cliente->getApellido();
         },
         ])
-        ->add('cancha',EntityType::class, array('class'=>'AppBundle:cancha','label' => 'Cancha'))
+        ->add('cancha',EntityType::class, array('class'=>'AppBundle:cancha',
+        'label' => 'Cancha', 
+        'attr' => [
+        'id' => 'id_cancha',       
+      ],
+        
+        ))
 
         ->add('fecha_reserva', DateType::class, array(
           'attr' => [
@@ -69,6 +75,6 @@ class nuevaReservaType extends AbstractType
     }
     
 
-}
-
+  }
  ?>
+

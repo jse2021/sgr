@@ -9,7 +9,10 @@ use AppBundle\form\nuevaReservaType;
 use AppBundle\form\consultarReservaPorClienteType;
 use AppBundle\form\consultarReservaPorCanchaType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\ORM\Mapping as ORM;
+
 
 /**
  *@Route ("/gestionReservas")
@@ -17,28 +20,63 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class gestionReservasController extends Controller 
 {
-
   /**
    * @Route("/nuevaReserva", name="nuevaReserva")
    */
    public function nuevaReservaAction(Request $request) {     
     
-    $nReserva = new reserva();
-    $form = $this->createForm(nuevaReservaType::class,$nReserva);
-
-    $fechaBd = array();
-    $fechaBd = $this->getDoctrine()->getRepository('AppBundle:Reserva')->findAll();
-    // // dump($fechaBd);
-    // foreach($fechaBd as $e)
-    // {                   
-    //     $fecha = $e->getFechaReserva();
-    //     $hora = $e->getHora();
-    //     dump($fecha);
-    //     dump($hora);
-    //     $array = array($fecha, $hora);
-    // }
-    // return new JsonResponse ($array);
+   $nReserva = new reserva();
+   $form = $this->createForm(nuevaReservaType::class,$nReserva);      
+    $em = $this->getDoctrine()->getManager();
+    $data = $em->getRepository(Reserva::class)->findAll();
     
+
+    // $response = new JsonResponse();
+    //   foreach($data as $reserva) {
+    //     $response->setData(array(
+    //     'fecha_reserva' => $reserva->getfechaReserva(),
+    //     'fecha' => $reserva->gethora(),
+    //     ));
+    // }
+    // return new JsonResponse($response);
+    
+    // foreach($data as $reserva) {
+    //   $arrayCollection[] = array(
+    //       'fecha_reserva' => $reserva->getfechaReserva(),
+    //       'fecha' => $reserva->gethora(),
+    //   );
+      
+    // }
+    //   return new JsonResponse($arrayCollection);
+
+      // $query = $em->createQuery(
+      //     '
+      //       SELECT
+      //             r.fecha_reserva, r.hora
+      //       FROM
+      //             AppBundle\Entity\reserva.php r
+      //       '
+      // );
+      //       $result = $query->getResult();
+
+
+    
+          //   public function getAllCategoryAction() {
+          //     $em = $this->getDoctrine()->getManager();
+          //     $query = $em->createQuery(
+          //         'SELECT c
+          //         FROM AppBundle:Categoria c'
+          //     );
+          //     $categorias = $query->getArrayResult();
+          
+          //     $response = new Response(json_encode($categorias));
+          //     $response->headers->set('Content-Type', 'application/json');
+          
+          //     return $response;
+          // }
+
+
+
     $form ->handleRequest($request);    
 
       if ($form->isSubmitted() && $form->isValid()) {
@@ -91,7 +129,6 @@ class gestionReservasController extends Controller
 }
 
 ?>
-
 
 <script>
       $(document).ready(function (){

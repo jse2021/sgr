@@ -1,7 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
-
+use Doctrine\ORM\Query\ResultSetMapping;
 /**
  * reservaRepository
  *
@@ -10,4 +10,24 @@ namespace AppBundle\Repository;
  */
 class reservaRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    function obtenerNativeQueryDeReserva()
+    {
+        $em = $this->getEntityManager();
+
+        $rsm = new ResultSetMapping();
+        // Las columnas que necesitás
+        $rsm->addScalarResult('fecha_reserva', 'fecha_reserva');
+        $rsm->addScalarResult('hora', 'hora');
+        
+
+        // Consulta nativa
+        $query = $em->createNativeQuery(
+            "SELECT * FROM reserva",
+            $rsm
+        );
+
+        return $query->getResult();
+    }
+
 }

@@ -1,6 +1,5 @@
 <?php
 namespace AppBundle\Controller;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,8 +8,7 @@ use AppBundle\form\nuevaReservaType;
 use AppBundle\form\consultarReservaPorClienteType;
 use AppBundle\form\consultarReservaPorCanchaType;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\BrowserKit\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -20,62 +18,28 @@ use Doctrine\ORM\Mapping as ORM;
 
 class gestionReservasController extends Controller 
 {
+
+  function pruebaNativeQuery()
+  {
+      $reservas = $this->getDoctrine()->getRepository('AppBundle:Reserva')->obtenerNativeQueryDeReserva();
+
+      // Devuelto en formato JSON
+      $response = new Response();
+      $response->setContent(json_encode($reservas));
+      $response->headers->set('Content-Type', 'application/json');
+
+      return $response;
+  }
+
   /**
    * @Route("/nuevaReserva", name="nuevaReserva")
    */
    public function nuevaReservaAction(Request $request) {     
-    
+   $this->pruebaNativeQuery();
+   dump($this->pruebaNativeQuery());
    $nReserva = new reserva();
-   $form = $this->createForm(nuevaReservaType::class,$nReserva);      
-    $em = $this->getDoctrine()->getManager();
-    $data = $em->getRepository(Reserva::class)->findAll();
-    
-
-    // $response = new JsonResponse();
-    //   foreach($data as $reserva) {
-    //     $response->setData(array(
-    //     'fecha_reserva' => $reserva->getfechaReserva(),
-    //     'fecha' => $reserva->gethora(),
-    //     ));
-    // }
-    // return new JsonResponse($response);
-    
-    // foreach($data as $reserva) {
-    //   $arrayCollection[] = array(
-    //       'fecha_reserva' => $reserva->getfechaReserva(),
-    //       'fecha' => $reserva->gethora(),
-    //   );
-      
-    // }
-    //   return new JsonResponse($arrayCollection);
-
-      // $query = $em->createQuery(
-      //     '
-      //       SELECT
-      //             r.fecha_reserva, r.hora
-      //       FROM
-      //             AppBundle\Entity\reserva.php r
-      //       '
-      // );
-      //       $result = $query->getResult();
-
-
-    
-          //   public function getAllCategoryAction() {
-          //     $em = $this->getDoctrine()->getManager();
-          //     $query = $em->createQuery(
-          //         'SELECT c
-          //         FROM AppBundle:Categoria c'
-          //     );
-          //     $categorias = $query->getArrayResult();
-          
-          //     $response = new Response(json_encode($categorias));
-          //     $response->headers->set('Content-Type', 'application/json');
-          
-          //     return $response;
-          // }
-
-
+   $form = $this->createForm(nuevaReservaType::class,$nReserva);       
+  
 
     $form ->handleRequest($request);    
 
@@ -125,11 +89,11 @@ class gestionReservasController extends Controller
       return $this->render('gestionReservas/consultarReservaPorCancha.html.twig',array('form' => $form->createView()));
   }
 
+  
 
 }
 
 ?>
-
 <script>
       $(document).ready(function (){
         pulsacion();

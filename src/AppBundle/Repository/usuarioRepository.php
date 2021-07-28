@@ -12,45 +12,45 @@ use Doctrine\ORM\Query\ResultSetMapping;
  */
 class usuarioRepository extends \Doctrine\ORM\EntityRepository
 {
-    function obtenerNativeQueryDePrueba()
-    {
-        $em = $this->getEntityManager();
+    // function obtenerNativeQueryDePrueba()
+    // {
+    //     $em = $this->getEntityManager();
 
-        $rsm = new ResultSetMapping();
-        // Las columnas que necesitás
-        $rsm->addScalarResult('username', 'username');
-        $rsm->addScalarResult('nombre', 'nombre');
-        $rsm->addScalarResult('apellido', 'apellido');
-        $rsm->addScalarResult('celular', 'celular');
-        $rsm->addScalarResult('roles', 'roles');
+    //     $rsm = new ResultSetMapping();
+    //     // Las columnas que necesitás
+    //     $rsm->addScalarResult('username', 'username');
+    //     $rsm->addScalarResult('nombre', 'nombre');
+    //     $rsm->addScalarResult('apellido', 'apellido');
+    //     $rsm->addScalarResult('celular', 'celular');
+    //     $rsm->addScalarResult('roles', 'roles');
 
-        // Consulta nativa
-        $query = $em->createNativeQuery(
-            "SELECT * FROM usuario",
-            $rsm
-        );
+    //     // Consulta nativa
+    //     $query = $em->createNativeQuery(
+    //         "SELECT * FROM usuario",
+    //         $rsm
+    //     );
 
-        return $query->getResult();
-    }
+    //     return $query->getResult();
+    // }
 
-    function obtenerNativeQueryDePruebaConParametros($id)
-    {
-        $em = $this->getEntityManager();
+    // function obtenerNativeQueryDePruebaConParametros($id)
+    // {
+    //     $em = $this->getEntityManager();
 
-        $rsm = new ResultSetMapping();
-        // Las columnas que necesitás
-        $rsm->addScalarResult('username', 'username');
-        $rsm->addScalarResult('nombre', 'nombre');
-        $rsm->addScalarResult('apellido', 'apellido');
-        $rsm->addScalarResult('celular', 'celular');
-        $rsm->addScalarResult('roles', 'roles');
+    //     $rsm = new ResultSetMapping();
+    //     // Las columnas que necesitás
+    //     $rsm->addScalarResult('username', 'username');
+    //     $rsm->addScalarResult('nombre', 'nombre');
+    //     $rsm->addScalarResult('apellido', 'apellido');
+    //     $rsm->addScalarResult('celular', 'celular');
+    //     $rsm->addScalarResult('roles', 'roles');
 
-        // Consulta nativa
-        $query = $em->createNativeQuery(
-            "SELECT * FROM usuario WHERE usuario.id = ${id}",
-            $rsm
-        );
+    //     // Consulta nativa
+    //     $query = $em->createNativeQuery(
+    //         "SELECT * FROM usuario WHERE usuario.id = ${id}",
+    //         $rsm
+    //     );
 
-        return $query->getResult();
-    }
+    //     return $query->getResult();
+    // }
 }

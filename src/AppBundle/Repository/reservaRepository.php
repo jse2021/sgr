@@ -12,10 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 class reservaRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    function obtenerNativeQueryDeReserva($tamano)
+    function obtenerNativeQueryDeReserva($x)
     {
+        dump($x);
         $em = $this->getEntityManager();
-
+        
         $rsm = new ResultSetMapping();
         // Las columnas que necesitás
         $rsm->addScalarResult('fecha_reserva', 'fecha_reserva');
@@ -25,7 +26,7 @@ class reservaRepository extends \Doctrine\ORM\EntityRepository
 
         // Consulta nativa
         $query = $em->createNativeQuery(
-            "SELECT * FROM reserva WHERE reserva.tamano = ${tamano}",
+            "SELECT * FROM reserva WHERE tamano ='${x}'",
             $rsm
         );
 

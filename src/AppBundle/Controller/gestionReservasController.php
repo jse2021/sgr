@@ -19,12 +19,13 @@ use AppBundle\Repository\reservaRepository;
 
 class gestionReservasController extends Controller 
 {
-  function pruebaNativeQuery()
+  function pruebaNativeQuery($x)
   {
     
-    $data = array("grande"=>"tamano");
-    $json = json_encode($data);
-    $x=$data['grande'];
+      // $data = array("grande");
+      // $json = json_encode($data);
+      dump($x);
+      // $x = 'grande';
       $reservas = $this->getDoctrine()->getRepository('AppBundle:Reserva')->obtenerNativeQueryDeReserva($x);
       // Devuelto en formato JSON
       $response = new Response();
@@ -38,7 +39,7 @@ class gestionReservasController extends Controller
    * @Route("/nuevaReserva", name="nuevaReserva")
    */
    public function nuevaReservaAction(Request $request) {     
-   $this->pruebaNativeQuery();
+  //  $this->pruebaNativeQuery();
   //  dump($this->pruebaNativeQuery());
    $nReserva = new reserva();
    $form = $this->createForm(nuevaReservaType::class,$nReserva);       
@@ -136,7 +137,7 @@ class gestionReservasController extends Controller
         $("#nueva_reserva_cancha").click(function (){
           var Vcancha = {cancha:$("#nueva_reserva_cancha").val()}
           if (Vcancha.cancha == "chica") {
-            
+            pruebaNativeQuery("chica");
           }
         });
       }

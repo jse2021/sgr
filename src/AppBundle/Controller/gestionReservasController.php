@@ -10,6 +10,7 @@ use AppBundle\form\consultarReservaPorCanchaType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Repository\reservaRepository;
 
 
 /**
@@ -18,16 +19,18 @@ use Doctrine\ORM\Mapping as ORM;
 
 class gestionReservasController extends Controller 
 {
-
   function pruebaNativeQuery()
   {
-      $reservas = $this->getDoctrine()->getRepository('AppBundle:Reserva')->obtenerNativeQueryDeReserva();
-
+    
+    $data = array("grande"=>"tamano");
+    $json = json_encode($data);
+    $x=$data['grande'];
+      $reservas = $this->getDoctrine()->getRepository('AppBundle:Reserva')->obtenerNativeQueryDeReserva($x);
       // Devuelto en formato JSON
       $response = new Response();
       $response->setContent(json_encode($reservas));
       $response->headers->set('Content-Type', 'application/json');
-
+      dump($response);
       return $response;
   }
 
@@ -36,7 +39,7 @@ class gestionReservasController extends Controller
    */
    public function nuevaReservaAction(Request $request) {     
    $this->pruebaNativeQuery();
-   dump($this->pruebaNativeQuery());
+  //  dump($this->pruebaNativeQuery());
    $nReserva = new reserva();
    $form = $this->createForm(nuevaReservaType::class,$nReserva);       
   
@@ -96,14 +99,52 @@ class gestionReservasController extends Controller
 ?>
 <script>
       $(document).ready(function (){
+    
+        var green = ["2021-07-29"];
+        $(function() {
         pulsacion();
-      });
+        $(".datepicker").datepicker({
+        
+          dateFormat: "yy-mm-dd",
+          dayNamesMin: ["Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab"],
+          monthNamesShort: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+          changeMonth: true,
+          changeYear: true,
+          maxDate: '+2Y',
+          minDate: '-4d',
+
+            beforeShowDay: function(date) {
+                var dateISO = $.datepicker.formatDate('yy-mm-dd', date);
+                //console.log(dateISO);
+
+                // if (red.indexOf(dateISO) > -1) {
+                //     return [true, "red"] // Enabled, class
+                // }
+                // if (yellow.indexOf(dateISO) > -1) {
+                //     return [true, "yellow"]
+                // }
+                if (green.indexOf(dateISO) > -1) {
+                    return [true, "green"]
+                }
+                return [true] // If not found, must at least return the enabled boolean.
+            }
+    });
+  });
+});
 
       function pulsacion() {
         $("#nueva_reserva_cancha").click(function (){
           var Vcancha = {cancha:$("#nueva_reserva_cancha").val()}
-          console.log(Vcancha);
+          if (Vcancha.cancha == "chica") {
+            
+          }
         });
+      }
+      
+    
 
-        }
+
+      
+
+        
     </script>

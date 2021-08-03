@@ -26,10 +26,9 @@ class gestionReservasController extends Controller
   {
       $x = "chica";   
       $array = array();
-      $canchaJson = $request->request->get('test', 'no hay valor');    
-      $array = json_decode($canchaJson,true);
-      dump($canchaJson);
-      $reservas = $this->getDoctrine()->getRepository('AppBundle:Reserva')->obtenerNativeQueryDeReserva($x);
+      $canchaJson = $request->query->get('test', 'no hay valor');
+      dump(json_decode($canchaJson));
+      $reservas = $this->getDoctrine()->getRepository('AppBundle:Reserva')->obtenerNativeQueryDeReserva($canchaJson);
       // Devuelto en formato JSON
       $response = new Response();
       $response->setContent(json_encode($reservas));

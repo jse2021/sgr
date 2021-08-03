@@ -11,10 +11,13 @@ $(document).ready(function() {
             data: {
                 'test': Vcancha.cancha
             },
-            success: function(data) {}
-        });
+            success: function(data) {
 
+            }
+
+        });
         $("#nueva_reserva").append($('<p>' + Vcancha.cancha + '</p>'));
+
 
     });
 

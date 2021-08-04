@@ -3,27 +3,24 @@ $(document).ready(function() {
         var Vcancha = {
             cancha: $("#nueva_reserva_cancha").val()
         }
-        var pasoUrl = '/buscoCancha';
+        var pasoUrl = "{{ path('buscoCancha', {'test': Vcancha.cancha})}}";
+
+
         $.ajax({
-            url: pasoUrl,
             type: 'post',
             dataType: 'json',
             data: {
                 'test': Vcancha.cancha
             },
-            success: function(data) {
+            url: pasoUrl,
+            success: function() {
+                // $("#nueva_reserva").append($('<p>' + Vcancha.cancha + '</p>'));
 
             }
-
         });
-        $("#nueva_reserva").append($('<p>' + Vcancha.cancha + '</p>'));
-
-
     });
-
     levantoCalendario();
     levantoHorario();
-
 });
 // Fin DocumentReady
 

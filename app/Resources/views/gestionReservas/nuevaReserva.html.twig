@@ -3,11 +3,12 @@
 {% block titulo %}Nueva reserva {% endblock %}
 
 {% block contenido %}
+{{ parent() }}
   <div class="container">
     <h1 class="text-center display-4">Nueva Reserva 
     </h1>
       <div class="row">
-        <div class="col-md-8">      
+        <div class="col-md-8" onClick ="obtengoCancha({{ form.cancha }})">      
             {{ form_start(form)}}
               {% for message in app.flashes('success')%}
                 <div class="alert alert-success">
@@ -26,3 +27,9 @@
   </div>
 {% endblock %}
 
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+  {# <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script> #}
+
+{% endblock %}

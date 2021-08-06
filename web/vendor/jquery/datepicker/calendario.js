@@ -1,28 +1,31 @@
 $(document).ready(function() {
-    $("#nueva_reserva_cancha").click(function() {
-        var Vcancha = {
-            cancha: $("#nueva_reserva_cancha").val()
-        }
-        var pasoUrl = "{{ path('buscoCancha', {'test': Vcancha.cancha})}}";
-
-
-        $.ajax({
-            type: 'post',
-            dataType: 'json',
-            data: {
-                'test': Vcancha.cancha
-            },
-            url: pasoUrl,
-            success: function() {
-                // $("#nueva_reserva").append($('<p>' + Vcancha.cancha + '</p>'));
-
-            }
-        });
+    $(function obtengoCancha(cancha) {
+        alert(cancha);
+        // $("#nueva_reserva_cancha").click(function() {
+        //     var Vcancha = {
+        //         cancha: $("#nueva_reserva_cancha").val()
+        //     }
+        // });
+        // var pasoUrl = "/buscoCancha";
+        // $.ajax({
+        //     type: 'POST',
+        //     data: {
+        //         cancha: Vcancha.cancha
+        //     },
+        //     url: pasoUrl,
+        //     async: true,
+        //     dataType: "json",
+        //     success: function() {
+        //         alert("correc");
+        //         // $("#nueva_reserva").append($('<p>' + Vcancha.cancha + '</p>'));
+        //     }
+        // });
     });
     levantoCalendario();
     levantoHorario();
 });
 // Fin DocumentReady
+
 
 $(function levantoHorario() {
     $('.timepicker').timepicker({

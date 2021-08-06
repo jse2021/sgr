@@ -20,17 +20,21 @@ use Symfony\Component\Validator\Constraints\Length;
 class gestionReservasController extends Controller 
 {
   /**
-   * @Route("/buscoCancha/{test}/", name="buscoCancha")
+   * @Route("/buscoCancha/{tamano}", name="buscoCancha")
    */
-  public function pruebaNativeQuery(Request $request,$test="grande")
+  public function pruebaNativeQuery(Request $request,$tamano = null)
   {
+    dump($tamano);
       $x = "chica";   
       $array = array();
-      $canchaJson = $request->query->get('test', 'no hay valor');
-      dump($test);
-      dump($canchaJson);
+      // if ($request->isXmlHttpRequest) {
+        $canchaJson = $request->request->get('cancha');
+      //   dump("paso por chica");
+      //   return new Response($canchaJson);
+      // }
       
-      $reservas = $this->getDoctrine()->getRepository('AppBundle:Reserva')->obtenerNativeQueryDeReserva($test);
+      
+      $reservas = $this->getDoctrine()->getRepository('AppBundle:Reserva')->obtenerNativeQueryDeReserva($x);
       // Devuelto en formato JSON
       $response = new Response();
       $response->setContent(json_encode($reservas));

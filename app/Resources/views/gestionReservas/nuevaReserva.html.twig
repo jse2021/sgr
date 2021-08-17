@@ -29,7 +29,78 @@
 
 {% block javascripts %}
   {{ parent() }}
-  <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
-  {# <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script> #}
+  <script>
+  var horasArray = [
+  "09:00:00",
+  "10:00:00",
+  "11:00:00",
+  "12:00:00",
+  "13:00:00",
+  "14:00:00",
+  "15:00:00",
+  "16:00:00",
+  "17:00:00",
+  "18:00:00",
+  "19:00:00",
+  "20:00:00",
+  "21:00:00",
+  "22:00:00",
+  "23:00:00"
+  ];
+    $("#nueva_reserva_cancha").click(function() {
+      $.ajax({
+          type: 'POST',
+          url: 'buscoCancha',
+          dataType: "json",
+          data: {
+              'tamano': $("#nueva_reserva_cancha").val()
+          },
+          success: function(response) {
+            console.log(response);
+            var horas_dias = response
+            console.log(horasArray);
 
+            {# $("#nueva_reserva").append($('<p>'+response+'</p>')); #}
+          }
+      });
+    });
+  
+  
+    $('.timepicker').timepicker({
+        timeFormat: 'HH:mm',
+        interval: 60,
+        minTime: '9:00',
+        maxTime: '23:00',
+        dropdown: true,
+        scrollbar: true,
+    });
+  // Fin hora
+      var green = ["2021-07-29"];
+      $(".datepicker").datepicker({
+          dateFormat: "yy-mm-dd",
+          dayNamesMin: ["Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab"],
+          monthNamesShort: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+          changeMonth: true,
+          changeYear: true,
+          maxDate: '+2Y',
+          minDate: '-4d',
+
+          beforeShowDay: function(date) {
+              var dateISO = $.datepicker.formatDate('yy-mm-dd', date);
+              //console.log(dateISO);
+
+              // if (red.indexOf(dateISO) > -1) {
+              //     return [true, "red"] // Enabled, class
+              // }
+              // if (yellow.indexOf(dateISO) > -1) {
+              //     return [true, "yellow"]
+              // }
+              if (green.indexOf(dateISO) > -1) {
+                  return [true, "green"]
+              }
+              return [true] // If not found, must at least return the enabled boolean.
+          }
+      });
+ 
+  </script>
 {% endblock %}

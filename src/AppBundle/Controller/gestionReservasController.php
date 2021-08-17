@@ -24,26 +24,24 @@ class gestionReservasController extends Controller
    */
   public function pruebaNativeQuery(Request $request)
   {
-   
-      $x = "chica";   
-      $array = array();
-      $canchaJson = $request->request->get('test');   
-      $reservas = $this->getDoctrine()->getRepository('AppBundle:Reserva')->obtenerNativeQueryDeReserva($x);
-      // Devuelto en formato JSON
-      $response = new Response();
-      $response->setContent(json_encode($reservas));
-      $response->headers->set('Content-Type', 'application/json');
-      dump($response);
-      
-      return $response;
+    $fechaActual = date('Y-m-d');
+    dump($fechaActual);
+    $canchaJson = $request->request->get('tamano');   
+    $reservas = $this->getDoctrine()->getRepository('AppBundle:reserva')->obtenerNativeQueryDeReserva($canchaJson,$fechaActual);
+    // Devuelto en formato JSON
+    $response = new Response();
+    $response->setContent(json_encode($reservas));
+    $response->headers->set('Content-Type', 'application/json');
+    
+    return $response;
   }
+
   /**
    * @Route("/nuevaReserva", name="nuevaReserva")
    */
    public function nuevaReservaAction(Request $request) {     
    $nReserva = new reserva();
-   $form = $this->createForm(nuevaReservaType::class,$nReserva);       
-   $this->pruebaNativeQuery($request);
+   $form = $this->createForm(nuevaReservaType::class,$nReserva);
    
    $form ->handleRequest($request);    
    if ($form->isSubmitted() && $form->isValid()) {

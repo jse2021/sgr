@@ -70,8 +70,7 @@ class nuevaReservaType extends AbstractType
           'required' => false,
           'empty_data' => "",
         ])
-        ->add('Guardar',SubmitType::class, array('label' => 'Guardar'))
-        ->add('Imprimir',SubmitType::class, array('label' => 'Imprimir'));
+        ->add('Guardar',SubmitType::class, array('label' => 'Guardar'));
     }
     
 

@@ -1,28 +1,16 @@
-{% extends 'base.html.twig' %}
-
-
-  {% block titulo %}
-    Home Page
-  {% endblock %}
-
-  {% block contenido %}
-    <div class="container">
-
-      {% if  app.user %}
-
-        <div class="col-lg-6">
-          <h2> Estas logueado</h2>
-
-        </div>
-        {% endif %} 
-        {% if  not app.user %}
-
-        <div class="col-lg-6">
-          <h2> sitio en construccion</h2>
-
-        </div>
-        {% endif %} 
+{% extends 'bases/base.html.twig' %}
+{% block titulo %}Home Page{% endblock %}
+{% block contenido %}
+  <div class="container">
+    {% if  app.user %}
+      <div class="col-lg-6">
+        <h2> Estas logueado</h2>
       </div>
-      <!-- /.row -->
-    </div>
-  {% endblock %}
+    {% endif %} 
+    {% if  not app.user %}
+      <div class="col-lg-6">
+        <h2> sitio en construccion</h2>
+      </div>
+    {% endif %} 
+  </div>
+{% endblock %}

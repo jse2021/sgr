@@ -12,23 +12,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class cancha
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+    
 
     /**
      * @var string
      *
-     * @ORM\Column(name="tamano", type="string", length=255, unique=true)
+     * @ORM\Column(name="nombre", type="string", length=255, unique=true)
      *@ORM\GeneratedValue(strategy="NONE")
      *@ORM\Id
      */
-    private $tamano;
+    private $nombre;
 
     /**
      * @var string
@@ -38,38 +31,29 @@ class cancha
     private $medidas;
 
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
+    
     /**
      * Set tamano
      *
-     * @param string $tamano
+     * @param string $nombre
      *
      * @return cancha
      */
-    public function setTamano($tamano)
+    public function setNombre($nombre)
     {
-        $this->tamano = $tamano;
+        $this->nombre = $nombre;
 
         return $this;
     }
 
     /**
-     * Get tamano
+     * Get nombre
      *
      * @return string
      */
-    public function getTamano()
+    public function getNombre()
     {
-        return $this->tamano;
+        return $this->nombre;
     }
 
     /**
@@ -112,19 +96,6 @@ class cancha
         $this->reserva = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * Set id
-     *
-     * @param integer $id
-     *
-     * @return cancha
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     /**
      * Add reserva
@@ -163,7 +134,7 @@ class cancha
     //conversion a cadena
     public function __toString()
     {
-      return $this->tamano;
+      return $this->nombre;
     }
 
 }

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <!--CCS DE CADA HTML-->
+    <link href="{{asset('vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"/>
+    <link href="{{asset('vendor/bootstrap/css/principal.css')}}" rel="stylesheet"/>
+    <link href="{{asset('vendor/bootstrap/css/cliente.css')}}" rel="stylesheet"/>
+    <link href="{{asset('vendor/bootstrap/css/reserva.css')}}" rel="stylesheet"/>
+    <link href="{{asset('vendor/bootstrap/css/consultaReserva.css')}}" rel="stylesheet"/>
+    <link href="{{asset('vendor/bootstrap/css/usuario.css')}}" rel="stylesheet"/>
+    <link href="{{asset('vendor/bootstrap/css/main.min.css')}}" rel="stylesheet"/>
+     <link href="{{asset('vendor/bootstrap/datepicker/jquery-ui.css')}}" rel="stylesheet"/>
+     <link href="{{asset('vendor/bootstrap/datepicker/jquery.timepicker.min.css')}}" rel="stylesheet"/>
+     <link href="{{asset('vendor/bootstrap/datepicker/daycolor.css')}}" rel="stylesheet"/>
+    <!--FIN CCS DE CADA HTML-->
+    <title>
+      {% block titulo %}Welcome!{% endblock %}
+      {% block stylesheets %}{% endblock %}
+    </title>
+  </head>
+  <body>
+    <div class="container-fluid navbar-light bg-light">
+      <nav class="navbar navbar-expand-lg  container">
+        <a class="navbar-brand">SGR</a>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            {# cuando no haya un usuario logueado #}
+            {% if not app.user %}
+              <li class="nav-item">
+                <a class="nav-link" href="#">Nosotros</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contacto</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{path('login')}}">Acceder</a>
+              </li> 
+            {% endif %} 
+            {# cuando haya un usuario logueado #}
+            {% if app.user %}
+              {% if is_granted('ROLE_SUPER_ADMIN') %}
+                {% for flash_message in app.session.flashbag.get('error') %}
+                  <div class="flash-error">
+                    {{flash_message}}
+                  </div>
+                {% endfor %}
+              <li class="nav-item">
+                <p class="nav-link">Bienvenido: {{ app.user.nombre}} {{app.user.apellido}}</p>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{path('principal')}}">Principal</a>
+              </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestión Clientes</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{{path('nuevoCliente')}}">Alta de Cliente</a>
+                      <a class="dropdown-item" href="{{path('consultarCliente')}}">Consultar Cliente</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestión Reservas</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{{path('nuevaReserva')}}">Alta de Reserva</a>
+                      <a class="dropdown-item" href="{{path('consultarReservaPorCliente')}}">Consultar Reserva</a>
+                      <a class="dropdown-item" href="#">Consultar Reserva por Cliente</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestión Usuarios</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{{path('nuevoUsuario')}}">Nuevo Usuario</a>
+                      <a class="dropdown-item" href="{{path('consultarUsuario')}}">Consultar Usuario</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestión Canchas</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{{path('nuevaCancha')}}">Alta de Cancha</a>
+                      <a class="dropdown-item" href="#">Consultar Cancha</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{path('logout')}}">Salir</a>
+                </li>                 
+           {% endif %}
+          {# fin if usuario con privilegios #}
+          
+          {% if is_granted('ROLE_USER') %}
+              {% for flash_message in app.session.flashbag.get('error') %}
+              <div class="flash-error">
+              {{flash_message}}
+              </div>
+            {% endfor %}
+              <li class="nav-item">
+                <p class="nav-link">Bienvenido: {{ app.user.nombre}} {{app.user.apellido}}</p>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{path('principal')}}">Principal</a>
+              </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestión Clientes</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{{path('nuevoCliente')}}">Alta de Cliente</a>
+                      <a class="dropdown-item" href="{{path('consultarCliente')}}">Consultar Cliente</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestión Reservas</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{{path('nuevaReserva')}}">Alta de Reserva</a>
+                      <a class="dropdown-item" href="{{path('consultarReservaPorCliente')}}">Consultar Reserva</a>
+                      <a class="dropdown-item" href="#">Consultar Reserva por Cliente</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{path('logout')}}">Salir</a>
+                </li>                 
+          {% endif %}
+          {# fin if usuario comun   #}
+          {% endif %}
+                </ul>
+              </div>
+            </nav>
+          </div>
+
+          {% block contenido %}
+            <!--NO LLEVA NADA, ES EL CONTENIDO DE CADA HTML INDIVIDUAL-->
+          {% endblock %}
+
+          {% block javascripts %}
+            <script src="{{asset('js/awesome.js')}}"  crossorigin="anonymous"></script>
+            <script src="{{asset('js/sweetalert.min.js')}}"></script>
+            <script src="{{asset('js/controlBorrado.js')}}"></script>
+            <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+            <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+            <script src="{{asset('vendor/jquery/datepicker/jquery-ui.js')}}"></script>
+            <script src="{{asset('vendor/jquery/datepicker/jquery.timepicker.min.js')}}"></script>
+          {% endblock %}
+  </body>
+</html>

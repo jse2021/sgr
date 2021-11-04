@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'bases/base.html.twig' %}
 {% form_theme form 'form/reservaForm.html.twig' %}
 {% block titulo %}Gestion Reserva {% endblock %}
 
@@ -57,6 +57,9 @@
           },
           success: function(data) {
             console.log(data);
+            {# for(x=0;x<=data.length;+1){
+              console.log(x);
+            } #}
             {# $("#nueva_reserva").append($('<p>'+response+'</p>')); #}
           }
       });

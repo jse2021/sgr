@@ -31,7 +31,7 @@ private $dniCliente;
 /**
  * @var \Date
  *
- * @ORM\Column(name="fecha_reserva", type="date")
+ * @ORM\Column(name="fecha", type="date")
  */
 private $fechaReserva;
 
@@ -177,7 +177,7 @@ private $cliente;
 /**
 *
 * @ORM\ManyToOne(targetEntity="cancha", inversedBy="reserva")
-* @ORM\JoinColumn(name="tamano", referencedColumnName="tamano")
+* @ORM\JoinColumn(name="nombreCancha", referencedColumnName="nombre")
 */
 private $cancha;
 

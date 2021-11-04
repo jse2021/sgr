@@ -6,17 +6,13 @@
 {#CONTENIDO#}
 {% block contenido %}
 
-  <h1 class="display-4 text-center">Sistema de Gestion de Reservas</h1>
-
+<h1 class="display-4 text-center">Sistema de Gestion de Reservas</h1>
   <div class="modal-dialog text-center">
     <div class="col-sm-8 main-section">
-      
       <div class="modal-content">
-        <div class="col-12 user-img">
-          <img src="web\img\log.png"></img>
-        </div>
-        
-
+              <div class="col-12 user-img">
+                    <img src="{{asset('img/logo.png')}}">
+                </div>        
         <form action="{{ path('login') }}" method="post">
           {% for message in app.flashes('warning')%}
         <div class="alert alert-warning">
@@ -25,25 +21,17 @@
       {% endfor %}
           <div class="control-group form-group">
             <div class="controls">
-              <label for="username">Username:</label>
-              <input class="form-control" type="text" id="username" name="_username" value="{{last_username}}"/>
+              <input class="form-control" type="text" id="username" name="_username" value="{{last_username}}" placeholder="Usuario"/>
             </div>
           </div>
-
           <div class="control-group form-group">
             <div class="controls">
-              <label for="password">Password:</label>
-              <input class="form-control" type="password" id="password" name="_password"/>
+              <input class="form-control" type="password" id="password" name="_password" placeholder="Password"/>
             </div>
           </div>
-
-          <button class="btn btn-primary" type="submit">Acceder</button>
+          <button class="btn btn-primary" type="submit">Ingresar</button>
         </form>
-
       </div>
-
     </div>
-
   </div>
-
 {% endblock %}

@@ -1,18 +1,37 @@
 {%- block form_row -%}
-    <div  class="control-group form-group">
-        <div class="controls">
-            {{- form_label(form) -}}
-            {{- form_errors(form) -}}
-            {{- form_widget(form) -}}
+<style>
+#btn{
+  position: absolute;
+  top: 840px;
+  width: 38%;
+  left: 595px;
+} 
+</style>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col col-lg-8">
+            <div  class="control-group form-group">
+                <div class="controls">
+                    {% for message in app.flashes('success')%}
+                        <div class="alert alert-success">
+                            {{message}}
+                        </div>
+                        {% for message in app.flashes('warning')%}
+                            <div class="alert alert-warning">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {{- form_label(form) -}}
+                    {{- form_start(form) -}}
+                    {{- form_errors(form) -}}
+                    {{- form_widget(form) -}}
+                </div>
+            </div>
         </div>
     </div>
+</div>
 {%- endblock form_row -%}
-
-{# {%- block form_widget_simple -%}
-    {%- set type = type|default('datetype') -%}
-    <input type="{{ type }}"class="form-control datepicker" id="datepicker" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-    <input class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-{%- endblock form_widget_simple -%} #}
 
 {%- block date_widget -%}
     {%- set type = type|default('datetype') -%}
@@ -67,6 +86,6 @@
             {% set label = name|humanize %}
         {%- endif -%}
     {%- endif -%}
-    <button type="{{ type|default('button') }}" class="btn btn-secondary" {{ block('button_attributes') }}>{{ translation_domain is same as(false) or label is same as(false) ? label : label|trans({}, translation_domain) }}</button>
+    <button type="{{ type|default('button') }}" id="btn" class="btn btn-secondary" {{ block('button_attributes') }}>{{ translation_domain is same as(false) or label is same as(false) ? label : label|trans({}, translation_domain) }}</button>
 {%- endblock button_widget -%}
 

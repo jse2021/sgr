@@ -1,8 +1,8 @@
-function controlBorrado(path, cliente) {
+function controlBorradoUsuario(path, usuario) {
 
     swal({
             title: "¿Estas seguro?",
-            text: "Estas a punto de borrar un cliente",
+            text: "Estas a punto de borrar un Usuario",
             icon: "warning",
             buttons: true,
             dangerMode: true,

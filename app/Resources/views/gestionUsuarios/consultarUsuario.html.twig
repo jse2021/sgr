@@ -1,14 +1,90 @@
 {% extends 'bases/base.html.twig' %}
 {% form_theme form 'form/usuarioForm.html.twig' %}
-{% block titulo %}
-    Consultar Usuario
-{% endblock %}
+{% block titulo %}Consultar Usuario{% endblock %}
 {% block contenido %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $("#myInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+  });
+</script>
+<style>
+  table {
+    position:absolute;
+    left:100px;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  #myInput{
+    position:absolute;
+    left:350px;
+    width: 50%;
+    top:20px;
+  }
+</style>
+<body>
+  <h1 class="text-center display-4">Consultar Usuarios</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1"></div>
+        <div class="col-md-6">
+        <div>
+          <input id="myInput" type="text" placeholder="Buscar" class="form-control"> 
+        </div>
+          <br><br>
+            <table class="table">
+              <thead class="thead-light">
+                <tr>               
+                  <th scope="col">Editar</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Apellido</th>
+                  <th scope="col">Celular</th>
+                  <th scope="col">Usuario</th>
+                  <th scope="col">Tipo de Usuario</th>
+                  <th scope="col">Borrar</th>
+                  </tr>
+              </thead>  
+                <tbody id="myTable">
+                  <tr>
+                    {% for usuario in usuario %}
+                      <th scope="row"><a href="{{path('nuevoUsuario',{'username':usuario.username})}}"><i class ="fas fa-pencil-alt"></i></a></th> 
+                        <td>{{usuario.nombre}}</td> 
+                        <td>{{usuario.apellido}}</td>
+                        <td>{{usuario.celular}}</td>
+                        <td>{{usuario.username}}</td>
+                          {% if usuario.roles == ['ROLE_USER'] %}
+                            <td>Estandar</td> 
+                          {% elseif usuario.roles == ['ROLE_SUPER_ADMIN']  %}
+                            <td>Administrador</td> 
+                          {% endif %}
+                     <th scope="row"><a href="#" onClick="return controlBorradoUsuario('{{path('borrarUsuario',{'username':usuario.username})}}');"><i class="fas fa-trash-alt"></i></a></th>
+                      <tr></tr>
+                    {% endfor %}
+                  </tr>
+                </tbody>        
+            </table>
+        </div>
+    </div>
+  </div>
 
-    <div class="container">
-    <h1 class="text-center display-4">
-      Consultar Usuario
-    </h1>
+
+{# --------------------------- #}
+  {# <div class="container">
+    <h1 class="text-center display-4">Consultar Usuario</h1>
 
     <div class="row">
 
@@ -25,6 +101,6 @@
       </div>
 
     </div>
-  </div>
+  </div> #}
 
 {% endblock %}

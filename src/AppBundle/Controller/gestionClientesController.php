@@ -23,32 +23,16 @@ use Symfony\Component\Validator\Constraints\Length;
  */
 class gestionClientesController extends Controller
 {
-   /**
-   * @Route("/consultarCliente", name="consultarCliente" )
+  /**
+   * @Route("/consultarCliente/{cliente}", name="consultarCliente" )
    */
-  public function consultarClienteAction(Request $request)
+  public function consultarClienteAction(Request $request, $cliente = null)
   {
-$repository = $this->getDoctrine()->getRepository(Cliente::class);
-$form = $this->createForm(consultarClienteType::class);
-$form ->handleRequest($request);
-    
-     if ($form->isSubmitted() && $form->isValid()) { 
-         // obtengo el dni del campo
-         $campoDni = $form->getData(['dni']);            
-         // Si cliente no trae nada, muestra nuevamente la pantalla consulta, sino muestra datos
-         $cliente = $this->getDoctrine()->getRepository('AppBundle:Cliente')
-         ->findOneBy(['dni' => $campoDni]);
-      
-           if ($cliente === null){
-             $this->addFlash('warning','No existe el cliente');                     
-             } else { 
-             return $this->render('gestionclientes/Cliente.html.twig',array("cliente" => $cliente));
-         }
-           } 
-             return $this->render('gestionclientes/consultarCliente.html.twig',array('form'=>$form->createView()));  
+    $repository = $this->getDoctrine()->getRepository(Cliente::class);
+    $form = $this->createForm(consultarClienteType::class);
+    $cliente = $this->getDoctrine()->getRepository('AppBundle:Cliente')->findAll();
+    return $this->render('gestionclientes/consultarCliente.html.twig',array('cliente' => $cliente,'form'=>$form->createView()));  
   }
-
-
   /**
    * @Route("/nuevoCliente/{dni}", name="nuevoCliente")
    *
@@ -120,20 +104,17 @@ $form ->handleRequest($request);
  *
  */
 public function borrarClienteAction(Request $request, $dni = null){
-
-if($dni)
-{
-    // Busqueda de la cliente
-    $repository = $this->getDoctrine()->getRepository(Cliente::class);
-    $cliente = $repository->find($dni);
-    // borrado
-    $em = $this->getDoctrine()->getManager();
-    $em ->remove($cliente);
-    $em->flush();
-
-}
-    return $this->redirectToRoute('consultarCliente');
-}
+    if($dni){
+      // Busqueda de la cliente
+      $repository = $this->getDoctrine()->getRepository(Cliente::class);
+      $cliente = $repository->find($dni);
+      // borrado
+      $em = $this->getDoctrine()->getManager();
+      $em ->remove($cliente);
+      $em->flush();
+    }
+      return $this->redirectToRoute('consultarCliente');
+  }
 }
 
 ?>

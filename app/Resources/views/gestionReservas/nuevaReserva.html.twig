@@ -1,106 +1,98 @@
 {% extends 'bases/base.html.twig' %}
 {% form_theme form 'form/reservaForm.html.twig' %}
 {% block titulo %}Gestion Reserva {% endblock %}
-
 {% block contenido %}
 {{ parent() }}
-  <div class="container">
-    <h1 class="text-center display-4">Gestion Reserva 
-    </h1>
-      <div class="row">
-        <div class="col-md-8">      
-            {{ form_start(form)}}
-              {% for message in app.flashes('success')%}
-                <div class="alert alert-success">
-                    {{message}}
-                </div>
-              {% for message in app.flashes('warning')%}
-                <div class="alert alert-warning">
-                  {{message}}
-                </div>
-              {% endfor %}
-              {% endfor %}
-            {{ form_widget (form)}}
-            {{ form_end(form)}}
-        </div>
-      </div>
-  </div>
+  <h1 class="text-center display-4">Gestion de la Reserva </h1>
+    {{ form_start(form)}}
+    {{ form_widget(form)}}
+    {{ form_end(form)}}
 {% endblock %}
-
 {% block javascripts %}
   {{ parent() }}
-  <script>
-  var horasArray = [
-  "09:00:00",
-  "10:00:00",
-  "11:00:00",
-  "12:00:00",
-  "13:00:00",
-  "14:00:00",
-  "15:00:00",
-  "16:00:00",
-  "17:00:00",
-  "18:00:00",
-  "19:00:00",
-  "20:00:00",
-  "21:00:00",
-  "22:00:00",
-  "23:00:00"
-  ];
-    $("#nueva_reserva_cancha").click(function() {
-      $.ajax({
-          type: 'POST',
-          url: 'buscoCancha',
-          dataType: "json",
-          data: {
-              'tamano': $("#nueva_reserva_cancha").val()
-          },
-          success: function(data) {
-            console.log(data);
-            {# for(x=0;x<=data.length;+1){
-              console.log(x);
-            } #}
-            {# $("#nueva_reserva").append($('<p>'+response+'</p>')); #}
-          }
-      });
-    });
-  
-  
-    $('.timepicker').timepicker({
-        timeFormat: 'HH:mm',
-        interval: 60,
-        minTime: '9:00',
-        maxTime: '23:00',
-        dropdown: true,
-        scrollbar: true,
-    });
-  // Fin hora
-      var green = ["2021-09-29"];
-      $(".datepicker").datepicker({
-          dateFormat: "yy-mm-dd",
-          dayNamesMin: ["Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab"],
-          monthNamesShort: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-          changeMonth: true,
-          changeYear: true,
-          maxDate: '+2Y',
-          minDate: '-4d',
+<script>
 
-          beforeShowDay: function(date) {
-              var dateISO = $.datepicker.formatDate('yy-mm-dd', date);
-              //console.log(dateISO);
+$(document).ready(function () {
+    //declaro variables
+    let fechaSeleccionada = null;
+    let horarios = [
+      '09:00:00',
+      '10:00:00',
+      '11:00:00',
+      '12:00:00',
+      '13:00:00',
+      '14:00:00',
+      '15:00:00',
+      '16:00:00',
+      '17:00:00',
+      '18:00:00',
+      '19:00:00',
+      '20:00:00',
+      '21:00:00',
+      '22:00:00',
+      '23:00:00'
+    ];
+    let horariosBD = [];
+    let green = ["2021-11-29"];
+    let horariosJSON = null;
+    $(".datepicker").datepicker({
+        dateFormat: "yy-mm-dd",
+        dayNamesMin: ["Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab"],
+        monthNamesShort: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+        changeMonth: true,
+        changeYear: true,
+        maxDate: '+2Y',
+        minDate: '0',
+        firstDay: 1, //Hace que la semana comience en Lunes
 
-              // if (red.indexOf(dateISO) > -1) {
-              //     return [true, "red"] // Enabled, class
-              // }
-              // if (yellow.indexOf(dateISO) > -1) {
-              //     return [true, "yellow"]
-              // }
-              if (green.indexOf(dateISO) > -1) {
-                  return [true, "green"]
-              }
-              return [true] // If not found, must at least return the enabled boolean.
-          }
-      });
- 
-  </script>
+        beforeShowDay: function(date) {
+            var dateISO = $.datepicker.formatDate('yy-mm-dd', date);
+                if (green.indexOf(dateISO) > -1) {
+                    return [true, "green"]
+                }
+        return [true]
+        },
+          
+          //Capturo fecha seleccionada del calendario
+        onSelect: function(obtengoFecha) {
+            //Busco todas las reservas registradas por cancha
+            fechaSeleccionada = obtengoFecha;
+            $("#nueva_reserva_cancha").click(function() {
+                    $.ajax({
+                    type: 'POST',
+                    url: 'buscoCancha',
+                    dataType: "json",
+                    data: {
+                            'nombreCancha': $("#nueva_reserva_cancha").val()
+                    },
+                        success: function(data) {
+                                for (r of data) {
+                                    if(r.fecha === fechaSeleccionada){  
+                                        horariosBD = r.hora;
+                                        //elimino del array horarios, los que traigo de la bases de datos para luego pasarlo al timepicker
+                                        var x = horarios.indexOf(horariosBD);
+                                        if(x !== -1){
+                                            horarios.splice(x, 1);
+                                            for (i of horarios){
+                                                    horariosJSON=JSON.stringify(i);
+                                            }         
+                                        }
+                                    }
+                                }
+                        
+                        $('.timepicker').timepicker({
+                            'timeFormat': 'HH:mm',
+                            'interval': 60,
+                            'scrollbar': true,
+                            'dynamic': true,
+                            'minTime': '9',
+                            'maxTime': '23:00pm',
+                        });//finaliza timepicker
+                    }// finaliza success de ajax
+                });//finaliza ajax
+            });//finaliza funcion previa ajax
+        } //finaliza noSelect
+    }); // finaliza datepickere
+}); //finaliza function
+</script>
 {% endblock %}

@@ -26,8 +26,8 @@ class gestionReservasController extends Controller
   {
     $fechaActual = date('Y-m-d');
     dump($fechaActual);
-    $canchaJson = $request->request->get('tamano');   
-    $reservas = $this->getDoctrine()->getRepository('AppBundle:reserva')->obtenerNativeQueryDeReserva($canchaJson,$fechaActual);
+    $canchaJson = $request->request->get('nombreCancha');   
+    $reservas = $this->getDoctrine()->getRepository('AppBundle:reserva')->obtenerNativeQueryDeReserva($canchaJson, $fechaActual);
     // Devuelto en formato JSON
     $response = new Response();
     $response->setContent(json_encode($reservas));
@@ -40,21 +40,21 @@ class gestionReservasController extends Controller
    * @Route("/nuevaReserva", name="nuevaReserva")
    */
    public function nuevaReservaAction(Request $request) {     
-   $nReserva = new reserva();
-   $form = $this->createForm(nuevaReservaType::class,$nReserva);
    
-   $form ->handleRequest($request);    
-   if ($form->isSubmitted() && $form->isValid()) {
-      $reserva = $form->getData();
-      $nombre = $form->getData(['nombre']);
-      dump($nombre);
-      $em = $this->getDoctrine()->getManager();
-      $em ->persist($reserva,$nombre);
-      $em->flush();
-      $this->addFlash('success','Reserva creada con éxito');          
-    
-    return $this->redirectToRoute('nuevaReserva');
-    } 
+    $nReserva = new reserva();
+    $form = $this->createForm(nuevaReservaType::class,$nReserva);
+  
+    $form ->handleRequest($request);    
+       if ($form->isSubmitted() && $form->isValid()) {
+          $reserva = $form->getData();
+          $nombre = $form->getData(['nombre']);
+          dump($nombre);
+          $em = $this->getDoctrine()->getManager();
+          $em ->persist($reserva,$nombre);
+          $em->flush();
+          $this->addFlash('success','Reserva creada con éxito');          
+          return $this->redirectToRoute('nuevaReserva');
+        } 
    
     return $this->render('gestionReservas/nuevaReserva.html.twig',array('form' => $form->createView()));
   }
@@ -67,7 +67,7 @@ class gestionReservasController extends Controller
     /*construyo formulario*/
     $form = $this->createForm(consultarReservaPorClienteType::class,$nReserva);
     
-    return $this->render('gestionReservas/consultarReservaPorCliente.html.twig',array('form' => $form->createView()));
+    return $this->render('gestionReservas/nuevaReserva.html.twig',array('form' => $form->createView()));
   }
 
   /**

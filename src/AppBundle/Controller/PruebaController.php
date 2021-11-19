@@ -12,11 +12,11 @@ use AppBundle\Repository\usuarioRepository;
  */
 class PruebaController extends Controller
 {
-    // /**
-    //  * @Route("/native-query", name="native-query")
-    //  */
-    // public function pruebaNativeQuery()
-    // {
+    /**
+     * @Route("/native-query", name="native-query")
+     */
+    public function pruebaNativeQuery()
+    {
     //     $usuarios = $this->getDoctrine()->getRepository('AppBundle:Usuario')->obtenerNativeQueryDePrueba();
 
     //     // Devuelto en formato JSON
@@ -26,4 +26,5 @@ class PruebaController extends Controller
 
     //     return $response;
     // }
+}
 }

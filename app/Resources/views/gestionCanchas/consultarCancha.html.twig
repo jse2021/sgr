@@ -1,6 +1,6 @@
 {% extends 'bases/base.html.twig' %}
-  {% form_theme form 'form/clienteForm.html.twig' %}
-{% block titulo %}Consultar Cliente{% endblock %}
+{% form_theme form 'form/canchaForm.html.twig' %}
+{% block titulo %}Consultar Cancha{% endblock %}
 {% block contenido %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -16,7 +16,7 @@
 <style>
   table {
     position:absolute;
-    left:100px;
+    left:200px;
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
@@ -37,7 +37,7 @@
   }
 </style>
 <body>
-  <h1 class="text-center display-4">Consultar Clientes</h1>
+  <h1 class="text-center display-4">Consultar Canchas</h1>
   <div class="container">
     <div class="row">
       <div class="col-md-1"></div>
@@ -50,24 +50,18 @@
               <thead class="thead-light">
                 <tr>               
                   <th scope="col">Editar</th>
-                  <th scope="col">Dni</th>
                   <th scope="col">Nombre</th>
-                  <th scope="col">Apellido</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Celular</th>
+                  <th scope="col">Medidas</th>
                   <th scope="col">Borrar</th>
                   </tr>
               </thead>  
                 <tbody id="myTable">
                   <tr>
-                    {% for cliente in cliente %}
-                      <th scope="row"><a href="{{path('nuevoCliente',{'dni':cliente.dni})}}"><i class ="fas fa-pencil-alt"></i></a></th> 
-                        <td>{{cliente.dni}}</td> 
-                        <td>{{cliente.nombre}}</td> 
-                        <td>{{cliente.apellido}}</td> 
-                        <td>{{cliente.email}}</td> 
-                        <td>{{cliente.celular}}</td> 
-                      <th scope="row"><a href="#" onClick="return controlBorrado('{{path('borrarCliente',{'dni':cliente.dni})}}');"><i class="fas fa-trash-alt"></i></a></th>
+                    {% for cancha in cancha %}
+                      <th scope="row"><a href="{{path('nuevaCancha',{'nombre':cancha.nombre})}}"><i class ="fas fa-pencil-alt"></i></a></th> 
+                        <td>{{cancha.nombre}}</td> 
+                        <td>{{cancha.medidas}}</td>
+                     <th scope="row"><a href="#" onClick="return controlBorradoCancha('{{path('borrarCancha',{'nombre':cancha.nombre})}}');"><i class="fas fa-trash-alt"></i></a></th>
                       <tr></tr>
                     {% endfor %}
                   </tr>
@@ -75,6 +69,5 @@
             </table>
         </div>
     </div>
-    </div>
+  </div>
 {% endblock %}
-  

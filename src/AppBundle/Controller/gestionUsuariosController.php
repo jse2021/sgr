@@ -78,29 +78,40 @@ $usuarioBd = $this->getDoctrine()->getRepository('AppBundle:Usuario')->findOneBy
  }
 
 
-/**
-* @Route("/consultarUsuario", name="consultarUsuario")
- */
-public function consultarUsuarioAction(Request $request){
-
-$repository = $this->getDoctrine()->getRepository(Usuario:: class);
-$form = $this->createForm(consultarUsuarioType::class);
-$form->handleRequest($request);
-
-  if ($form->isSubmitted() && $form->isValid()) { 
-    // obtengo el usuario del campo
-    $campoUsuario = $form->getData(['username']);
-    // Si usuario no trae nada, muestra nuevamente la pantalla consulta, sino muestra datos
-    $usuario = $this->getDoctrine()->getRepository('AppBundle:Usuario')->findOneBy(['username' => $campoUsuario]);
-
-      if ($usuario === null) {
-        $this->addFlash('warning','No existe el usuario');
-      } else {
-        return $this->render('gestionUsuarios/Usuario.html.twig',array("usuario" => $usuario));
-      }
+ /**
+   * @Route("/consultarUsuario/{usuario}", name="consultarUsuario")
+   */
+  public function consultarUsuarioAction(Request $request, $usuario = null)
+  {
+    $repository = $this->getDoctrine()->getRepository(Usuario::class);
+    $form = $this->createForm(consultarUsuarioType::class);
+    $usuario = $this->getDoctrine()->getRepository('AppBundle:Usuario')->findAll();
+    return $this->render('gestionUsuarios/consultarUsuario.html.twig',array('usuario' => $usuario,'form'=>$form->createView()));  
+      
   }
-return $this->render('gestionUsuarios/consultarUsuario.html.twig',array('form'=>$form->createView()));  
-}
+// /**
+// * @Route("/consultarUsuario", name="consultarUsuario")
+//  */
+// public function consultarUsuarioAction(Request $request){
+
+// $repository = $this->getDoctrine()->getRepository(Usuario:: class);
+// $form = $this->createForm(consultarUsuarioType::class);
+// $form->handleRequest($request);
+
+//   if ($form->isSubmitted() && $form->isValid()) { 
+//     // obtengo el usuario del campo
+//     $campoUsuario = $form->getData(['username']);
+//     // Si usuario no trae nada, muestra nuevamente la pantalla consulta, sino muestra datos
+//     $usuario = $this->getDoctrine()->getRepository('AppBundle:Usuario')->findOneBy(['username' => $campoUsuario]);
+
+//       if ($usuario === null) {
+//         $this->addFlash('warning','No existe el usuario');
+//       } else {
+//         return $this->render('gestionUsuarios/Usuario.html.twig',array("usuario" => $usuario));
+//       }
+//   }
+// return $this->render('gestionUsuarios/consultarUsuario.html.twig',array('form'=>$form->createView()));  
+// }
 
 /**
  * @Route("/borrar/{username}", name="borrarUsuario")

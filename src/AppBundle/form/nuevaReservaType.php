@@ -15,10 +15,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
-
-/**
- *
- */
 class nuevaReservaType extends AbstractType
 {
 
@@ -28,23 +24,16 @@ class nuevaReservaType extends AbstractType
         ->add('cliente', EntityType::class, [
           'class' => 'AppBundle:Cliente',
           'mapped' =>true,
-          'placeholder' => 'Seleccione un cliente' ,
+          'placeholder'=>' ',
           'required' => true,
-          'label' => 'Cliente ',
+          'label'=> 'Cliente',
           'choice_label' => function($cliente) {
-            return $cliente->getDni().' ' .$cliente->getNombre(). ' '. $cliente->getApellido();
+            // return $cliente->getDni().' ' .$cliente->getNombre(). ' '. $cliente->getApellido();
+            return $cliente->getApellido().' '.$cliente->getNombre();
         },
         ])
-        ->add('cancha',EntityType::class, array('class'=>'AppBundle:cancha',
-        'label' => 'Cancha', 
-        'attr' => [
-        'id' => 'id_cancha',       
-      ],
-        
-        ))
-
         ->add('fecha_reserva', DateType::class, array(
-          'attr' => [
+            'attr' => [
             'class' => 'form-control input-inline datepicker',
             'id' => 'datepicker',
             'data-provide' => 'datepicker',
@@ -53,23 +42,34 @@ class nuevaReservaType extends AbstractType
           'label' => 'Reserva',
           'required' => true,
           'html5' => false,
-          
+
         ))
+        ->add('cancha',EntityType::class, array('class'=>'AppBundle:cancha',
+        'placeholder'=>' ',
+        'label' => 'Cancha', 
+        'attr' => [
+        'id' => 'id_cancha',       
+        ],))
       ->add('hora', TimeType::class, array( 
         'attr'=> [
         'class' => 'form-control timepicker', 
       ],
-        // 'input'  => 'datetime',
         'widget' => 'single_text',
         'html5' => false,
         ))
-        ->add('tipoMonto',EntityType::class, array('class'=>'AppBundle:tipoMonto','label' => 'Estado','mapped' =>true))
-        ->add('monto',NumberType::class,['invalid_message'=>'Se ingresaron datos invalidos'],array('label' => 'Monto $ ',
-        'precision' => 30))
+
+        ->add('tipoMonto',EntityType::class, array('class'=>'AppBundle:tipoMonto',
+          'placeholder'=>' ',
+          'label' => 'Estado','mapped' =>true))
+
+        ->add('monto',NumberType::class,['invalid_message'=>'Se ingresaron datos invalidos'])
+        
+
         ->add('observaciones',TextareaType::class, [
           'required' => false,
           'empty_data' => "",
         ])
+
         ->add('Guardar',SubmitType::class, array('label' => 'Guardar'));
     }
     

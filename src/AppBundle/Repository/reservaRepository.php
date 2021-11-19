@@ -14,20 +14,20 @@ use Symfony\Component\HttpFoundation\Request;
 class reservaRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    function obtenerNativeQueryDeReserva($tamano,$fechaActual)
+    function obtenerNativeQueryDeReserva($nombreCancha,$fechaActual)
     {
         $em = $this->getEntityManager();
         
         $rsm = new ResultSetMapping();
         // Las columnas que necesitás
-        $rsm->addScalarResult('fecha_reserva', 'fecha_reserva');
+        $rsm->addScalarResult('fecha', 'fecha');
         $rsm->addScalarResult('hora', 'hora');
-        $rsm->addScalarResult('tamano', 'tamano');
+        $rsm->addScalarResult('nombreCancha', 'nombreCancha');
         
         // Consulta nativa
         // Traigo las fechas segun la cancha desde la fecha actual hasta el 2022
         $query = $em->createNativeQuery(
-            "SELECT * FROM reserva WHERE tamano ='${tamano}'AND fecha_reserva BETWEEN '${fechaActual}' AND '2023-12-31'",
+            "SELECT * FROM reserva WHERE nombreCancha ='${nombreCancha}' AND fecha BETWEEN '${fechaActual}' AND '2023-12-31'",
             $rsm
         );
 

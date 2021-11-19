@@ -87,6 +87,35 @@ class gestionCanchasController extends Controller
     /*de esta forma habilito para usar las variables en index*/
       return $this->render('gestionCanchas/nuevaCancha.html.twig',array('form' => $form->createView()));
   }
+
+  /**
+   * @Route("/consultarCancha/{cancha}", name="consultarCancha" )
+   */
+  public function consultarCanchaAction(Request $request, $cancha = null)
+  {
+    $repository = $this->getDoctrine()->getRepository(Cancha::class);
+    $form = $this->createForm(consultarClienteType::class);
+    $cancha = $this->getDoctrine()->getRepository('AppBundle:Cancha')->findAll();
+    return $this->render('gestionCanchas/consultarCancha.html.twig',array('cancha' => $cancha,'form'=>$form->createView()));  
+      
+  }
+
+  /**
+ * @Route("/borrar/{nombre}", name="borrarCancha")
+ *
+ */
+public function borrarCanchaAction(Request $request, $nombre = null){
+  if($nombre){
+    // Busqueda de la cliente
+    $repository = $this->getDoctrine()->getRepository(Cancha::class);
+    $cancha = $repository->find($nombre);
+    // borrado
+    $em = $this->getDoctrine()->getManager();
+    $em ->remove($cancha);
+    $em->flush();
+  }
+    return $this->redirectToRoute('consultarCancha');
+}
 }
 
 ?>

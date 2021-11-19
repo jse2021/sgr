@@ -13,6 +13,7 @@
      <link href="{{asset('vendor/bootstrap/datepicker/jquery-ui.css')}}" rel="stylesheet"/>
      <link href="{{asset('vendor/bootstrap/datepicker/jquery.timepicker.min.css')}}" rel="stylesheet"/>
      <link href="{{asset('vendor/bootstrap/datepicker/daycolor.css')}}" rel="stylesheet"/>
+     
     <!--FIN CCS DE CADA HTML-->
     <title>
       {% block titulo %}Welcome!{% endblock %}
@@ -20,8 +21,9 @@
     </title>
   </head>
   <body>
+  
     <div class="container-fluid navbar-light bg-light">
-      <nav class="navbar navbar-expand-lg  container">
+    <nav class="navbar navbar-expand-lg  container">
         <a class="navbar-brand">SGR</a>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto">
@@ -74,7 +76,7 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestión Canchas</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <a class="dropdown-item" href="{{path('nuevaCancha')}}">Alta de Cancha</a>
-                      <a class="dropdown-item" href="#">Consultar Cancha</a>
+                      <a class="dropdown-item" href="{{path('consultarCancha')}}">Consultar Cancha</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="{{path('logout')}}">Salir</a>
@@ -125,7 +127,9 @@
           {% block javascripts %}
             <script src="{{asset('js/awesome.js')}}"  crossorigin="anonymous"></script>
             <script src="{{asset('js/sweetalert.min.js')}}"></script>
-            <script src="{{asset('js/controlBorrado.js')}}"></script>
+            <script src="{{asset('js/controlBorradoCliente.js')}}"></script>
+            <script src="{{asset('js/controlBorradoUsuario.js')}}"></script>
+            <script src="{{asset('js/controlBorradoCancha.js')}}"></script>
             <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
             <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
             <script src="{{asset('vendor/jquery/datepicker/jquery-ui.js')}}"></script>

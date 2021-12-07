@@ -21,13 +21,12 @@ class reservaRepository extends \Doctrine\ORM\EntityRepository
         $rsm = new ResultSetMapping();
         // Las columnas que necesitás
         $rsm->addScalarResult('fecha', 'fecha');
-        $rsm->addScalarResult('hora', 'hora');
         $rsm->addScalarResult('nombreCancha', 'nombreCancha');
         
         // Consulta nativa
         // Traigo las fechas segun la cancha desde la fecha actual hasta el 2022
         $query = $em->createNativeQuery(
-            "SELECT * FROM reserva WHERE nombreCancha ='${nombreCancha}' AND fecha BETWEEN '${fechaActual}' AND '2023-12-31'",
+            "SELECT * FROM reserva WHERE nombreCancha ='${nombreCancha}' AND fecha BETWEEN '${fechaActual}' AND '2026-12-31 00:00:00'",
             $rsm
         );
 

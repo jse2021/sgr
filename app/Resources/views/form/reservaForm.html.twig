@@ -33,15 +33,16 @@
 </div>
 {%- endblock form_row -%}
 
-{%- block date_widget -%}
-    {%- set type = type|default('datetype') -%}
-    <input type="{{ type }}"class="form-control datepicker" id="datepicker" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-{%- endblock date_widget -%}
+{%- block datetime_widget -%}
+    {%- set type = type|default('datetimetype') -%}
+    <input type="{{ type }}"class="form-control datetimepicker" id="datetimepicker" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{%- endblock datetime_widget -%}
 
-{%- block time_widget -%}
+
+{# {%- block time_widget -%}
     {%- set type = type|default('timetype') -%}
-    <input class="form-control timepicker" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-{%- endblock time_widget -%}
+    <input class="form-control" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{%- endblock time_widget -%} #}
 
 {%- block number_widget -%}
     {%- set type = type|default('text') -%}

@@ -10,54 +10,22 @@
 {% endblock %}
 {% block javascripts %}
   {{ parent() }}
-<script>
-
-$(document).ready(function () {
-    //declaro variables
+ 
+<script type="text/javascript">
+  $(function () {
     let fechaSeleccionada = null;
-    let horarios = [
-      '09:00:00',
-      '10:00:00',
-      '11:00:00',
-      '12:00:00',
-      '13:00:00',
-      '14:00:00',
-      '15:00:00',
-      '16:00:00',
-      '17:00:00',
-      '18:00:00',
-      '19:00:00',
-      '20:00:00',
-      '21:00:00',
-      '22:00:00',
-      '23:00:00'
-    ];
-    let horariosBD = [];
-    let green = ["2021-11-29"];
-    let horariosJSON = null;
-    $(".datepicker").datepicker({
-        dateFormat: "yy-mm-dd",
-        dayNamesMin: ["Dom", "Lun", "Mar", "Mier", "Jue", "Vie", "Sab"],
-        monthNamesShort: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-        changeMonth: true,
-        changeYear: true,
-        maxDate: '+2Y',
-        minDate: '0',
-        firstDay: 1, //Hace que la semana comience en Lunes
+    let capturoHoraBd = new Array();
+    let capturoFechaBd = new Array();
+    let horarios = ['9:00', '10:00', '11:00', 
+                '12:00', '13:00', '14:00', '15:00', '16:00',
+                '17:00', '18:00', '19:00', '20:00', '21:00',
+                '22:00', '23:00','00:00','01:00','02:00','03:00'];
+    let horariosDev = ['9:00', '10:00', '11:00', 
+                '12:00', '13:00', '14:00', '15:00', '16:00',
+                '17:00', '18:00', '19:00', '20:00', '21:00',
+                '22:00', '23:00','00:00','01:00','02:00','03:00'];
 
-        beforeShowDay: function(date) {
-            var dateISO = $.datepicker.formatDate('yy-mm-dd', date);
-                if (green.indexOf(dateISO) > -1) {
-                    return [true, "green"]
-                }
-        return [true]
-        },
-          
-          //Capturo fecha seleccionada del calendario
-        onSelect: function(obtengoFecha) {
-            //Busco todas las reservas registradas por cancha
-            fechaSeleccionada = obtengoFecha;
-            $("#nueva_reserva_cancha").click(function() {
+          $("#nueva_reserva_cancha").click(function() {
                     $.ajax({
                     type: 'POST',
                     url: 'buscoCancha',
@@ -65,34 +33,41 @@ $(document).ready(function () {
                     data: {
                             'nombreCancha': $("#nueva_reserva_cancha").val()
                     },
-                        success: function(data) {
-                                for (r of data) {
-                                    if(r.fecha === fechaSeleccionada){  
-                                        horariosBD = r.hora;
-                                        //elimino del array horarios, los que traigo de la bases de datos para luego pasarlo al timepicker
-                                        var x = horarios.indexOf(horariosBD);
-                                        if(x !== -1){
-                                            horarios.splice(x, 1);
-                                            for (i of horarios){
-                                                    horariosJSON=JSON.stringify(i);
-                                            }         
-                                        }
-                                    }
-                                }
-                        
-                        $('.timepicker').timepicker({
-                            'timeFormat': 'HH:mm',
-                            'interval': 60,
-                            'scrollbar': true,
-                            'dynamic': true,
-                            'minTime': '9',
-                            'maxTime': '23:00pm',
-                        });//finaliza timepicker
-                    }// finaliza success de ajax
+                    success: function(data) {
+                          console.log(data);
+                          $.datetimepicker.setLocale('es');
+                          $(".datetimepicker").datetimepicker({
+                              format: 'Y-m-d H:i',
+                               {# highlightedDates: [
+                              "2021-12-21,Meeting with Pete", 
+                              "2021-12-23,Christmas Eve,xdsoft_highlighted_mint", 
+                              "2021-12-13,Christmas Day,xdsoft_highlighted_mint", 
+                              "2021-12-26,Thanksgiving"
+                              ], #}
+                              yearStart: 2021,    
+                              yearEnd: 2030,
+                              dayOfWeekStart:1,
+                              allowTimes: horarios,
+                              onSelectDate:function(ct,$i){
+                                  fechaSeleccionada = JSON.stringify(moment(ct).format(moment.HTML5_FMT.DATE))
+                                  console.log("fecha: "+fechaSeleccionada);
+                                  //capturo fecha y dia, de los registros de la bases de datos
+                                  for(h of data){
+                                      capturoFechaBd= JSON.stringify(moment(h.fecha).format(moment.HTML5_FMT.DATE));
+                                      capturoHoraBd = moment(h.fecha).format("HH:mm");
+                                      if(capturoFechaBd === fechaSeleccionada){
+                                        //obtengo los indices repetidos y elimino
+                                          var indice = horarios.indexOf(capturoHoraBd);
+                                          horarios.splice(indice,1);
+                                          console.log(horarios);
+
+                                      }
+                                  }//fin for
+                                  }//fin onSelect
+                          });//fin datetimepicker
+                      }// fin success
                 });//finaliza ajax
-            });//finaliza funcion previa ajax
-        } //finaliza noSelect
-    }); // finaliza datepickere
-}); //finaliza function
+          }); // fin nueva_reserva_cancha
+  });// fin function
 </script>
 {% endblock %}

@@ -29,18 +29,10 @@ private $id;
 private $dniCliente;
 
 /**
- * @var \Date
- *
- * @ORM\Column(name="fecha", type="date")
+ * @ORM\Column(name="fecha", type="datetime")
  */
 private $fechaReserva;
 
-/**
- * @var \Time
- *
- * @ORM\Column(name="hora", type="time")
- */
-private $hora;
 
 /**
  * @var 
@@ -81,7 +73,7 @@ public function getDniCliente(){
 
 /**
  * Set fechaReserva
- * @param \Date $fechaReserva
+ * @param \DateTime $fechaReserva
  * @return reserva
  */
 public function setFechaReserva($fechaReserva){
@@ -91,30 +83,12 @@ public function setFechaReserva($fechaReserva){
 
 /**
  * Get fechaReserva
- * @return \Date
+ * @return \DateTime
  */
 public function getFechaReserva() {
     return $this->fechaReserva;
 }
 
-/**
- * Set hora
- * @param \Time $hora
- * @return reserva
- */
-public function setHora($hora){
-    $this->hora = $hora;
-    return $this;
-}
-
-/**
- * Get hora
- *
- * @return \Time
- */
-public function getHora() {
-    return $this->hora;
-}
 
 /**
  * Set monto
@@ -187,6 +161,13 @@ private $cancha;
 * @ORM\JoinColumn(name="tipoMonto", referencedColumnName="descripcion")
 */
 private $tipoMonto;
+
+/**
+*
+* @ORM\ManyToOne(targetEntity="horarios", inversedBy="reserva")
+* @ORM\JoinColumn(name="horarios", referencedColumnName="id")
+*/
+private $horarios;
 
 /**
  * Set usuario

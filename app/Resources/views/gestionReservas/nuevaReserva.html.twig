@@ -20,11 +20,10 @@
                 '12:00', '13:00', '14:00', '15:00', '16:00',
                 '17:00', '18:00', '19:00', '20:00', '21:00',
                 '22:00', '23:00','00:00','01:00','02:00','03:00'];
-    let horariosDev = ['9:00', '10:00', '11:00', 
+    let provisorio = ['9:00', '10:00', '11:00', 
                 '12:00', '13:00', '14:00', '15:00', '16:00',
                 '17:00', '18:00', '19:00', '20:00', '21:00',
                 '22:00', '23:00','00:00','01:00','02:00','03:00'];
-
           $("#nueva_reserva_cancha").click(function() {
                     $.ajax({
                     type: 'POST',
@@ -38,13 +37,7 @@
                           $.datetimepicker.setLocale('es');
                           $(".datetimepicker").datetimepicker({
                               format: 'Y-m-d H:i',
-                               {# highlightedDates: [
-                              "2021-12-21,Meeting with Pete", 
-                              "2021-12-23,Christmas Eve,xdsoft_highlighted_mint", 
-                              "2021-12-13,Christmas Day,xdsoft_highlighted_mint", 
-                              "2021-12-26,Thanksgiving"
-                              ], #}
-                              yearStart: 2021,    
+                              yearStart: 2022,    
                               yearEnd: 2030,
                               dayOfWeekStart:1,
                               allowTimes: horarios,
@@ -56,14 +49,26 @@
                                       capturoFechaBd= JSON.stringify(moment(h.fecha).format(moment.HTML5_FMT.DATE));
                                       capturoHoraBd = moment(h.fecha).format("HH:mm");
                                       if(capturoFechaBd === fechaSeleccionada){
-                                        //obtengo los indices repetidos y elimino
+                                          console.log("La fecha existe");
+                                          //obtengo los indices repetidos y elimino
                                           var indice = horarios.indexOf(capturoHoraBd);
                                           horarios.splice(indice,1);
-                                          console.log(horarios);
-
+                                          this.setOptions({
+                                          allowTimes:horarios                                          
+                                        });
+                                          {# console.log(horarios); #}
+                                      } 
+                                      if(capturoFechaBd !== fechaSeleccionada){
+                                        console.log("la fecha no existe");
+                                          this.setOptions({
+                                              allowTimes:['9:00', '10:00', '11:00', 
+                                              '12:00', '13:00', '14:00', '15:00', '16:00',
+                                              '17:00', '18:00', '19:00', '20:00', '21:00',
+                                              '22:00', '23:00','00:00','01:00','02:00','03:00'],
+                                          });
                                       }
                                   }//fin for
-                                  }//fin onSelect
+                                  }//fin onSelect    
                           });//fin datetimepicker
                       }// fin success
                 });//finaliza ajax

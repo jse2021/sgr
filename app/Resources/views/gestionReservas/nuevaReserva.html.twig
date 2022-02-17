@@ -45,7 +45,7 @@
                                   fechaSeleccionada = JSON.stringify(moment(ct).format(moment.HTML5_FMT.DATE))
                                   console.log("fecha: "+fechaSeleccionada);
                                   //capturo fecha y dia, de los registros de la bases de datos
-                                  for(h of data){
+                                   for(h of data){
                                       capturoFechaBd= JSON.stringify(moment(h.fecha).format(moment.HTML5_FMT.DATE));
                                       capturoHoraBd = moment(h.fecha).format("HH:mm");
                                       if(capturoFechaBd === fechaSeleccionada){
@@ -53,23 +53,25 @@
                                           //obtengo los indices repetidos y elimino
                                           var indice = horarios.indexOf(capturoHoraBd);
                                           horarios.splice(indice,1);
+                                          console.log(indice);
                                           this.setOptions({
-                                          allowTimes:horarios                                          
+                                          allowTimes: horarios
                                         });
-                                          {# console.log(horarios); #}
-                                      } 
-                                      if(capturoFechaBd !== fechaSeleccionada){
-                                        console.log("la fecha no existe");
-                                          this.setOptions({
-                                              allowTimes:['9:00', '10:00', '11:00', 
-                                              '12:00', '13:00', '14:00', '15:00', '16:00',
-                                              '17:00', '18:00', '19:00', '20:00', '21:00',
-                                              '22:00', '23:00','00:00','01:00','02:00','03:00'],
-                                          });
                                       }
-                                  }//fin for
-                                  }//fin onSelect    
-                          });//fin datetimepicker
+                                       else if(!(capturoFechaBd === fechaSeleccionada)){
+                                          console.log("fecha: "+fechaSeleccionada);
+                                          $('.datetimepicker').click(function(){
+                                          $('.datetimepicker').datetimepicker('reset');
+                                          }); 
+                                          console.log("la fecha no existe");
+                                          this.setOptions({
+                                            // traigo el panel de horas completo
+                                              allowTimes:provisorio
+                                          });
+                                      } 
+                                    } //for
+                              }//fin onSelect    
+                         });//fin datetimepicker
                       }// fin success
                 });//finaliza ajax
           }); // fin nueva_reserva_cancha

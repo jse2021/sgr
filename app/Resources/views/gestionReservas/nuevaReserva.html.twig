@@ -42,33 +42,28 @@
                               dayOfWeekStart:1,
                               allowTimes: horarios,
                               onSelectDate:function(ct,$i){
+                                timebox=$(this);
                                   fechaSeleccionada = JSON.stringify(moment(ct).format(moment.HTML5_FMT.DATE))
                                   console.log("fecha: "+fechaSeleccionada);
                                   //capturo fecha y dia, de los registros de la bases de datos
                                    for(h of data){
                                       capturoFechaBd= JSON.stringify(moment(h.fecha).format(moment.HTML5_FMT.DATE));
                                       capturoHoraBd = moment(h.fecha).format("HH:mm");
-                                      if(capturoFechaBd === fechaSeleccionada){
+
+                                      if((capturoFechaBd === fechaSeleccionada)){
                                           console.log("La fecha existe");
-                                          //obtengo los indices repetidos y elimino
                                           var indice = horarios.indexOf(capturoHoraBd);
                                           horarios.splice(indice,1);
-                                          console.log(indice);
-                                          this.setOptions({
-                                          allowTimes: horarios
-                                        });
+                                          timebox.addClass('disable');
+                                          {# if(indice !== -1){
+                                              horarios.splice(indice,1);
+                                              this.setOptions({
+                                              allowTimes: horarios
+                                              });
+                                          } #}
+
+                                        console.log(indice);
                                       }
-                                       else if(!(capturoFechaBd === fechaSeleccionada)){
-                                          console.log("fecha: "+fechaSeleccionada);
-                                          $('.datetimepicker').click(function(){
-                                          $('.datetimepicker').datetimepicker('reset');
-                                          }); 
-                                          console.log("la fecha no existe");
-                                          this.setOptions({
-                                            // traigo el panel de horas completo
-                                              allowTimes:provisorio
-                                          });
-                                      } 
                                     } //for
                               }//fin onSelect    
                          });//fin datetimepicker

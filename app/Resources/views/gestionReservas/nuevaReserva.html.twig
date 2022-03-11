@@ -20,10 +20,6 @@
                 '12:00', '13:00', '14:00', '15:00', '16:00',
                 '17:00', '18:00', '19:00', '20:00', '21:00',
                 '22:00', '23:00','00:00','01:00','02:00','03:00'];
-    let provisorio = ['9:00', '10:00', '11:00', 
-                '12:00', '13:00', '14:00', '15:00', '16:00',
-                '17:00', '18:00', '19:00', '20:00', '21:00',
-                '22:00', '23:00','00:00','01:00','02:00','03:00'];
           $("#nueva_reserva_cancha").click(function() {
                     $.ajax({
                     type: 'POST',
@@ -41,28 +37,23 @@
                               yearEnd: 2030,
                               dayOfWeekStart:1,
                               allowTimes: horarios,
-                              onSelectDate:function(ct,$i){
-                                timebox=$(this);
+                              minDate: 0,
+                              onChangeDateTime:function(ct,$i){
                                   fechaSeleccionada = JSON.stringify(moment(ct).format(moment.HTML5_FMT.DATE))
                                   console.log("fecha: "+fechaSeleccionada);
                                   //capturo fecha y dia, de los registros de la bases de datos
                                    for(h of data){
                                       capturoFechaBd= JSON.stringify(moment(h.fecha).format(moment.HTML5_FMT.DATE));
                                       capturoHoraBd = moment(h.fecha).format("HH:mm");
-
                                       if((capturoFechaBd === fechaSeleccionada)){
                                           console.log("La fecha existe");
                                           var indice = horarios.indexOf(capturoHoraBd);
+                                          console.log(indice);
                                           horarios.splice(indice,1);
-                                          timebox.addClass('disable');
-                                          {# if(indice !== -1){
-                                              horarios.splice(indice,1);
                                               this.setOptions({
                                               allowTimes: horarios
                                               });
-                                          } #}
-
-                                        console.log(indice);
+                                        
                                       }
                                     } //for
                               }//fin onSelect    

@@ -38,25 +38,30 @@
                               dayOfWeekStart:1,
                               allowTimes: horarios,
                               minDate: 0,
-                              onChangeDateTime:function(ct,$i){
+                              onGenerate:function(ct,$i){
                                   fechaSeleccionada = JSON.stringify(moment(ct).format(moment.HTML5_FMT.DATE))
                                   console.log("fecha: "+fechaSeleccionada);
                                   //capturo fecha y dia, de los registros de la bases de datos
                                    for(h of data){
                                       capturoFechaBd= JSON.stringify(moment(h.fecha).format(moment.HTML5_FMT.DATE));
                                       capturoHoraBd = moment(h.fecha).format("HH:mm");
+
                                       if((capturoFechaBd === fechaSeleccionada)){
                                           console.log("La fecha existe");
                                           var indice = horarios.indexOf(capturoHoraBd);
                                           console.log(indice);
-                                          horarios.splice(indice,1);
-                                              this.setOptions({
-                                              allowTimes: horarios
-                                              });
-                                        
-                                      }
+                                          {# horarios.splice(indice,1); #}
+                                          $('.xdsoft_time_variant .xdsoft_time').show();
+                                          if(indice !== -1) {
+                                              $('.xdsoft_time_variant .xdsoft_time').each(function(indice){
+                                                  if(horarios[indice].indexOf(parseInt($(this).text())) !== -1){
+                                                      $(this).hide();        
+                                              }
+                                         });
+                                        }
+                                      }//fin if
                                     } //for
-                              }//fin onSelect    
+                             }//fin onGenerate    
                          });//fin datetimepicker
                       }// fin success
                 });//finaliza ajax
@@ -64,3 +69,4 @@
   });// fin function
 </script>
 {% endblock %}
+

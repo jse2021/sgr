@@ -162,12 +162,12 @@ private $cancha;
 */
 private $tipoMonto;
 
-/**
-*
-* @ORM\ManyToOne(targetEntity="horarios", inversedBy="reserva")
-* @ORM\JoinColumn(name="horarios", referencedColumnName="id")
-*/
-private $horarios;
+// /**
+// *
+// * @ORM\ManyToOne(targetEntity="horarios", inversedBy="reserva")
+// * @ORM\JoinColumn(name="horarios", referencedColumnName="id")
+// */
+// private $horarios;
 
 /**
  * Set usuario

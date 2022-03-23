@@ -12,6 +12,7 @@
   {{ parent() }}
  
 <script type="text/javascript">
+
   $(function () {
     let fechaSeleccionada = null;
     let capturoHoraBd = new Array();
@@ -39,23 +40,23 @@
                               allowTimes: horarios,
                               minDate: 0,
                               onGenerate:function(ct,$i){
-                                  fechaSeleccionada = JSON.stringify(moment(ct).format(moment.HTML5_FMT.DATE))
+                                  fechaSeleccionada = JSON.stringify(moment(ct).format(moment.HTML5_FMT.DATE));
                                   console.log("fecha: "+fechaSeleccionada);
-                                  //capturo fecha y dia, de los registros de la bases de datos
-                                   for(h of data){
+                                   //capturo fecha y dia, de los registros de la bases de datos
+                                      for(h of data){
                                       capturoFechaBd= JSON.stringify(moment(h.fecha).format(moment.HTML5_FMT.DATE));
                                       capturoHoraBd = moment(h.fecha).format("HH:mm");
+                                      {# horarios.splice(indice,1); #}
 
                                       if((capturoFechaBd === fechaSeleccionada)){
-                                          console.log("La fecha existe");
                                           var indice = horarios.indexOf(capturoHoraBd);
+                                          console.log(capturoHoraBd);
                                           console.log(indice);
-                                          {# horarios.splice(indice,1); #}
                                           $('.xdsoft_time_variant .xdsoft_time').show();
                                           if(indice !== -1) {
-                                              $('.xdsoft_time_variant .xdsoft_time').each(function(indice){
+                                              $('.xdsoft_time_variant .xdsoft_time').each(function(index){
                                                   if(horarios[indice].indexOf(parseInt($(this).text())) !== -1){
-                                                      $(this).hide();        
+                                                    $(this).hide();
                                               }
                                          });
                                         }

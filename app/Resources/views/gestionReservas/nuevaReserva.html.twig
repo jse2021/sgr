@@ -12,7 +12,33 @@
   {{ parent() }}
  
 <script type="text/javascript">
+var checkPastTime = function(inputDateTime) {
+    if (typeof(inputDateTime) != "undefined" && inputDateTime !== null) {
+        var current = new Date();
 
+        //check past year and month
+        if (inputDateTime.getFullYear() < current.getFullYear()) {
+            $('.datetimepicker').datetimepicker('reset');
+        } else if ((inputDateTime.getFullYear() == current.getFullYear()) && (inputDateTime.getMonth() < current.getMonth())) {
+            $('.datetimepicker').datetimepicker('reset');
+        }
+ 
+        // 'this' is jquery object datetimepicker
+        // check input date equal to todate date
+        if (inputDateTime.getDate() == current.getDate()) {
+            if (inputDateTime.getHours() < current.getHours()) {
+                $('.datetimepicker').datetimepicker('reset');
+            }
+            this.setOptions({
+                minTime: current.getHours() + ':00' //here pass current time hour
+            });
+        } else {
+            this.setOptions({
+                minTime: false
+            });
+        }
+    }
+};
   $(function () {
     let fechaSeleccionada = null;
     let capturoHoraBd = new Array();
@@ -39,6 +65,8 @@
                               dayOfWeekStart:1,
                               allowTimes: horarios,
                               minDate: 0,
+                              onChangeDateTime:checkPastTime,
+                              onShow:checkPastTime,
                               onGenerate:function(ct,$i){
                                   fechaSeleccionada = JSON.stringify(moment(ct).format(moment.HTML5_FMT.DATE));
                                   console.log("fecha: "+fechaSeleccionada);
@@ -48,9 +76,9 @@
                                       capturoHoraBd = moment(h.fecha).format("HH:mm");
                                       {# horarios.splice(indice,1); #}
 
-                                      if((capturoFechaBd === fechaSeleccionada)){
-                                          var indice = horarios.indexOf(capturoHoraBd);
+                                      if(( fechaSeleccionada === capturoFechaBd)){
                                           console.log(capturoHoraBd);
+                                          var indice = horarios.indexOf(capturoHoraBd);
                                           console.log(indice);
                                           $('.xdsoft_time_variant .xdsoft_time').show();
                                           if(indice !== -1) {

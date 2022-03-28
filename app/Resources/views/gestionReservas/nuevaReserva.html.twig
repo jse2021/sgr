@@ -1,102 +1,66 @@
 {% extends 'bases/base.html.twig' %}
-{% form_theme form 'form/reservaForm.html.twig' %}
+{# {% form_theme form 'form/reservaForm.html.twig' %} #}
 {% block titulo %}Gestion Reserva {% endblock %}
 {% block contenido %}
+
 {{ parent() }}
   <h1 class="text-center display-4">Gestion de la Reserva </h1>
-    {{ form_start(form)}}
-    {{ form_widget(form)}}
-    {{ form_end(form)}}
+  <!doctype html>
+  <html lang="en">
+    <head>
+      <title>Title</title>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+      <!-- Bootstrap CSS v5.0.2 -->
+      <link href="{{asset('vendor/fullcalendar/lib/main.css')}}" rel="stylesheet"/>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+    <body>
+     <div id="containter">
+          <div class="col-md-8 offset-md-2">
+            <div id="calendario"></div>
+          </div>
+      </div>
+
+      <!-- Bootstrap JavaScript Libraries -->
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    </body>
+  </html>
 {% endblock %}
+
 {% block javascripts %}
-  {{ parent() }}
- 
-<script type="text/javascript">
-var checkPastTime = function(inputDateTime) {
-    if (typeof(inputDateTime) != "undefined" && inputDateTime !== null) {
-        var current = new Date();
-
-        //check past year and month
-        if (inputDateTime.getFullYear() < current.getFullYear()) {
-            $('.datetimepicker').datetimepicker('reset');
-        } else if ((inputDateTime.getFullYear() == current.getFullYear()) && (inputDateTime.getMonth() < current.getMonth())) {
-            $('.datetimepicker').datetimepicker('reset');
-        }
- 
-        // 'this' is jquery object datetimepicker
-        // check input date equal to todate date
-        if (inputDateTime.getDate() == current.getDate()) {
-            if (inputDateTime.getHours() < current.getHours()) {
-                $('.datetimepicker').datetimepicker('reset');
-            }
-            this.setOptions({
-                minTime: current.getHours() + ':00' //here pass current time hour
-            });
-        } else {
-            this.setOptions({
-                minTime: false
-            });
-        }
+<script src="{{asset('vendor/fullcalendar/lib/main.js')}}"></script>
+<script src="{{asset('vendor/fullcalendar/lib/locales-all.js')}}"></script>
+<script>
+let elementoEv = [{
+    "tittle":"Jeremias Romero",
+    "start":"2022-03-30 10:00:00"
+}]
+document.addEventListener('DOMContentLoaded', function() {
+var calendarEl = document.getElementById('calendario');
+var calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    locale:"es",
+    headerToolbar:{
+        left:'prev,next,today',
+        center:'title',
+        right:'dayGridMonth,timeGridWeek,timeGridDay'
+    },
+    events: elementoEv,
+    editable: true,
+    eventDrop: (infos)=>{
+        console.log(infos.event.start);
     }
-};
-  $(function () {
-    let fechaSeleccionada = null;
-    let capturoHoraBd = new Array();
-    let capturoFechaBd = new Array();
-    let horarios = ['9:00', '10:00', '11:00', 
-                '12:00', '13:00', '14:00', '15:00', '16:00',
-                '17:00', '18:00', '19:00', '20:00', '21:00',
-                '22:00', '23:00','00:00','01:00','02:00','03:00'];
-                
-          $("#nueva_reserva_cancha").click(function() {
-                    $.ajax({
-                    type: 'POST',
-                    url: 'buscoCancha',
-                    dataType: "json",
-                    data: {
-                            'nombreCancha': $("#nueva_reserva_cancha").val()
-                    },
-                    success: function(data) {
-                          console.log(data);
-                          $.datetimepicker.setLocale('es');
-                          $(".datetimepicker").datetimepicker({
-                              format: 'Y-m-d H:i',
-                              yearStart: 2022,    
-                              yearEnd: 2030,
-                              dayOfWeekStart:1,
-                              allowTimes: horarios,
-                              minDate: 0,
-                              onChangeDateTime:checkPastTime,
-                              onShow:checkPastTime,
-                              onGenerate:function(ct,$i){
-                                  fechaSeleccionada = JSON.stringify(moment(ct).format(moment.HTML5_FMT.DATE));
-                                  console.log("fecha: "+fechaSeleccionada);
-                                   //capturo fecha y dia, de los registros de la bases de datos
-                                      for(h of data){
-                                      capturoFechaBd= JSON.stringify(moment(h.fecha).format(moment.HTML5_FMT.DATE));
-                                      capturoHoraBd = moment(h.fecha).format("HH:mm");
-                                      {# horarios.splice(indice,1); #}
 
-                                      if(( fechaSeleccionada === capturoFechaBd)){
-                                          console.log(capturoHoraBd);
-                                          var indice = horarios.indexOf(capturoHoraBd);
-                                          console.log(indice);
-                                          $('.xdsoft_time_variant .xdsoft_time').show();
-                                          if(indice !== -1) {
-                                              $('.xdsoft_time_variant .xdsoft_time').each(function(index){
-                                                  if(horarios[indice].indexOf(parseInt($(this).text())) !== -1){
-                                                    $(this).hide();
-                                              }
-                                         });
-                                        }
-                                      }//fin if
-                                    } //for
-                             }//fin onGenerate    
-                         });//fin datetimepicker
-                      }// fin success
-                });//finaliza ajax
-          }); // fin nueva_reserva_cancha
-  });// fin function
+});
+calendar.render();
+});
 </script>
 {% endblock %}
+
+ 
+
 

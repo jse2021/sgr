@@ -1,5 +1,5 @@
 {% extends 'bases/base.html.twig' %}
-{# {% form_theme form 'form/reservaForm.html.twig' %} #}
+{% form_theme form 'form/reservaForm.html.twig' %}
 {% block titulo %}Gestion Reserva {% endblock %}
 {% block contenido %}
 
@@ -35,6 +35,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script src="{{asset('vendor/fullcalendar/lib/main.js')}}"></script>
 <script src="{{asset('vendor/fullcalendar/lib/locales-all.js')}}"></script>
+<script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+
 <script>
 let elementoEv = [{
     "tittle":"Jeremias Romero",
@@ -48,7 +50,9 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
     locale:"es",
     navLinks: true,
     selectable: true,
+    height: 650,
     selectHelper:true,
+    
     headerToolbar:{
         left:'prev,next,today',
         center:'title',
@@ -56,12 +60,11 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
         
     },
       
-
+    
     dateClick: function(info) {
       fechaSeleccionada=info.dateStr;
       console.log(fechaSeleccionada);  
-      
-      {# $("gestionClientes/consultarCliente").modal("show"); #}
+      $("#nuevoCliente").modal("show");
       
   },
     events: elementoEv,
@@ -69,8 +72,6 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
     eventDrop: (infos)=>{
         console.log(infos.event.start);
     }
-   
-
 });
 calendar.render();
  

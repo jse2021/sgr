@@ -17,32 +17,27 @@
               <div id="containter">
                   <div class="col-md-8 offset-md-2">
                   <div id="calendario"></div>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Reserva</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Recipient:</label>
-            <input type="text" class="form-control" id="recipient-name">
-          </div>
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
-      </div>
-    </div>
-  </div>
-</div>
+                      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Reserva</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <form>
+                                {{ form_start(form)}}
+                                {{ form_widget(form)}}
+                                {{ form_end(form)}}
+                              </form>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary">Send message</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
               </div>
               {# librerias js #}
              <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
@@ -59,44 +54,44 @@
 <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
 
 <script>
-let elementoEv = [{
-    "tittle":"Jeremias Romero",
-    "start":"2022-03-30 10:00:00"
-}]
+  let elementoEv = [{
+      "tittle":"Jeremias Romero",
+      "start":"2022-03-30 10:00:00"
+  }]
 
-document.addEventListener('DOMContentLoaded', function() {
-var calendarEl = document.getElementById('calendario');
-var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridMonth',
-    locale:"es",
-    navLinks: true,
-    selectable: true,
-    height: "auto",
-    contentHeight: "auto",
-    selectHelper:true,
-    headerToolbar:{
-        left:'prev,next,today',
-        center:'title',
-        right:'dayGridMonth,timeGridWeek,timeGridDay',
+  document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendario');
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale:"es",
+      navLinks: true,
+      selectable: true,
+      height: "auto",
+      contentHeight: "auto",
+      selectHelper:true,
+      headerToolbar:{
+          left:'prev,next,today',
+          center:'title',
+          right:'dayGridMonth,timeGridWeek,timeGridDay',
+          
+      },
         
-    },
       
-    
-    dateClick: function(info) {
-      fechaSeleccionada=info.dateStr;
-      console.log(fechaSeleccionada);  
-      $("#exampleModal").modal("show");  
-  },
+      dateClick: function(info) {
+        fechaSeleccionada=info.dateStr;
+        console.log(fechaSeleccionada);  
+        $("#exampleModal").modal("show");  
+    },
 
-    events: elementoEv,
-    editable: true,
-    eventDrop: (infos)=>{
-        console.log(infos.event.start);
-    }
-});
-calendar.render();
- 
-});
+      events: elementoEv,
+      editable: true,
+      eventDrop: (infos)=>{
+          console.log(infos.event.start);
+      }
+  });
+  calendar.render();
+  
+  });
 </script>
 {% endblock %}
 

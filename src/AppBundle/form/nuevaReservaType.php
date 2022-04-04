@@ -35,12 +35,12 @@ class nuevaReservaType extends AbstractType
         },
         ])
       
-        ->add('cancha',EntityType::class, array('class'=>'AppBundle:cancha',
-        'placeholder'=>' ',
-        'label' => 'Cancha', 
-        'attr' => [
-        'id' => 'id_cancha',       
-        ],))
+        // ->add('cancha',EntityType::class, array('class'=>'AppBundle:cancha',
+        // 'placeholder'=>' ',
+        // 'label' => 'Cancha', 
+        // 'attr' => [
+        // 'id' => 'id_cancha',       
+        // ],))
 
         ->add('fecha_reserva', DateTimeType::class, array(
           'attr' => [
